@@ -7,6 +7,9 @@ function Home() {
             <h1>Hello World!</h1>
             <Link to="/requests">
                 <button>Requests</button>
+            </Link>
+            <Link to="/form">
+                <button>Form</button>
             </Link> 
         </div>
     );
