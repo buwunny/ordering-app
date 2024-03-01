@@ -9,13 +9,13 @@ cursor.execute("SELECT * FROM Requests")
 results = cursor.fetchall()
 
 
-def create_order_request(data):
+def create_request(data):
     query = "INSERT INTO Requests (Description, Vendor, Part_Num, Unit_Price, Quantity, Link, Notes) VALUES (%s, %s, %s, %s, %s, %s, %s)"
     values = tuple(data[key] for key in ['description', 'vendor', 'partNumber', 'unitPrice', 'quantity', 'link', 'notes'])
     cursor.execute(query, values)
     cnx.commit()
 
-def read_employees():
+def read_requests():
     cursor.execute("SELECT * FROM Requests")
     results = cursor.fetchall()
     for row in results:

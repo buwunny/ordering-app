@@ -12,12 +12,18 @@ def home(path):
 def handle_form():
     form_data = request.json
     
-    querier.create_order_request(form_data)
+    querier.create_request(form_data)
     response = {
         'status': 'success',
         'data': form_data
     }
     return jsonify(response)
+
+
+@app.route('/api/requests')
+def get_requests():
+    requests = querier.read_requests()
+    return jsonify(requests)
 
 if __name__ == '__main__':
     app.run(debug=True)
