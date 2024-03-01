@@ -20,10 +20,9 @@ def handle_form():
     return jsonify(response)
 
 
-@app.route('/api/requests')
+@app.route('/api/requests', methods=['GET'])
 def get_requests():
-    requests = querier.read_requests()
-    return jsonify(requests)
+    return jsonify(querier.read_requests())
 
 if __name__ == '__main__':
     app.run(debug=True)

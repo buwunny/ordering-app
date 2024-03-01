@@ -9,7 +9,8 @@ const Requests = () => {
         const fetchRequests = async () => {
             try {
                 const response = await axios.get('/api/requests');
-                setRequests(response.data);
+                console.log(response.data); // Print response to console
+                setRequests(response.data); // Make requests a 2D array
             } catch (error) {
                 setMessage('An error occurred');
             }
@@ -18,18 +19,33 @@ const Requests = () => {
     }, []);
 
     return (
-        <div>
-            <h1>Requests</h1>
-            <ul>
-                {requests.map((request) => (
-                    <li key={request._id}>
-                        {request.description} - {request.vendor}
-                    </li>
-                ))}
-            </ul>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '5px' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr', gap: '5px'}}>
+                <p><strong>Description</strong></p>
+                <p><strong>Vendor</strong></p>
+                <p><strong>Part Number</strong></p>
+                <p><strong>Unit Price</strong></p>
+                <p><strong>Quantity</strong></p>
+                <p><strong>Link</strong></p>
+                <p><strong>Notes</strong></p>
+                <p><strong>Accepted</strong></p>
+            </div>
+            {requests.map((request, index) => (
+                <div key={index} style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr', gap: '5px' }}>
+                    <p>{request.Description}</p>
+                    <p>{request.Vendor}</p>
+                    <p>{request.Part_Num}</p>
+                    <p>{request.Unit_Price}</p>
+                    <p>{request.Quantity}</p>
+                    <p>{request.Link}</p>
+                    <p>{request.Notes}</p>
+                    <p>{request.Accepted ? 'True' : 'False'}</p>
+                    {/* Add more <p> elements as needed */}
+                </div>
+            ))}
             {message && <p>{message}</p>}
         </div>
     );
-}
+};
 
 export default Requests;
