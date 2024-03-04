@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 
 const Requests = () => {
@@ -20,7 +21,7 @@ const Requests = () => {
 
     return (
         <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '5px' }}>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr', gap: '5px'}}>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr', gap: '5px' }}>
                 <p><strong>Description</strong></p>
                 <p><strong>Vendor</strong></p>
                 <p><strong>Part Number</strong></p>
@@ -43,6 +44,9 @@ const Requests = () => {
                     {/* Add more <p> elements as needed */}
                 </div>
             ))}
+            <Link to="/">
+                <button>Home</button>
+            </Link>
             {message && <p>{message}</p>}
         </div>
     );

@@ -24,5 +24,9 @@ def handle_form():
 def get_requests():
     return jsonify(querier.read_requests())
 
+@app.route('/api/orders', methods=['GET'])
+def get_orders():
+    return jsonify(querier.read_orders())
+
 if __name__ == '__main__':
     app.run(debug=True)
