@@ -7,8 +7,11 @@ cursor = cnx.cursor()
 dictCursor = cnx.cursor(dictionary=True)   
 cursor.execute("SELECT * FROM Requests")
 results = cursor.fetchall()
-98
 
+
+
+
+# REQUESTS FUNCTIONS
 def create_request(data):
     query = "INSERT INTO Requests (Description, Vendor, Part_Num, Unit_Price, Quantity, Link, Notes) VALUES (%s, %s, %s, %s, %s, %s, %s)"
     values = tuple(data[key] for key in ['description', 'vendor', 'partNumber', 'unitPrice', 'quantity', 'link', 'notes'])
@@ -18,17 +21,31 @@ def create_request(data):
 def read_requests():
     dictCursor.execute("SELECT * FROM Requests")
     results = dictCursor.fetchall()
-    # print(json.dumps(results))
     return results
+
+def read_request(id):  
+    query = "SELECT * FROM Requests WHERE ID = %s"
+    dictCursor.execute(query, (id,))
+    result = dictCursor.fetchone()
+    return result
+
+def update_request_status(id, status):
+    query = "UPDATE Requests SET Status = %s WHERE ID = %s"
+    cursor.execute(query, (status, id))
+    cnx.commit()
+
+def request_to_order(id):
+    create_order(read_request(id))
 
 def delete_request(id):
     query = "DELETE FROM Requests WHERE ID = %s"
     cursor.execute(query, (id,))
     cnx.commit()
 
+# ORDERS FUNCTIONS
 def create_order(data):
     query = "INSERT INTO Orders (Description, Vendor, Part_Num, Unit_Price, Quantity, Link, Notes) VALUES (%s, %s, %s, %s, %s, %s, %s)"
-    values = tuple(data[key] for key in ['description', 'vendor', 'partNumber', 'unitPrice', 'quantity', 'link', 'notes'])
+    values = tuple(data[key] for key in ['Description', 'Vendor', 'Part_Num', 'Unit_Price', 'Quantity', 'Link', 'Notes'])
     cursor.execute(query, values)
     cnx.commit()
 
@@ -36,6 +53,3 @@ def read_orders():
     dictCursor.execute("SELECT * FROM Orders")
     results = dictCursor.fetchall()
     return results
-# create_employee({'description': 'New Employee', 'vendor': 'ACME', 'partNumber': '123', 'unitPrice': 10.99, 'quantity': 5, 'link': 'https://example.com', 'notes': 'Some notes'})
-# create_employee({'description': 'Another Employee', 'vendor': 'XYZ Corp', 'partNumber': '456', 'unitPrice': 19.99, 'quantity': 3, 'link': 'https://example.com', 'notes': 'More notes'})
-# create_employee({'description': 'Third Employee', 'vendor': 'ABC Inc', 'partNumber': '789', 'unitPrice': 7.99, 'quantity': 10, 'link': 'https://example.com', 'notes': 'Additional notes'})

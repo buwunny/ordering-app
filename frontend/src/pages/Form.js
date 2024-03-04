@@ -26,8 +26,10 @@ import axios from 'axios';
                 const response = await axios.post('/api/form', formData);
                 setFormData(initialFormData);
                 setMessage('Form submitted successfully');
+                console.log(response.status);
             } catch (error) {
                 setMessage('An error occurred');
+                console.log(error);
             }
         };
 
