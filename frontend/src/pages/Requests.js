@@ -1,15 +1,24 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import withAuth from '../hocs/withAuth';
+import { jwtDecode } from 'jwt-decode';
 
 const Requests = () => {
     const [requests, setRequests] = useState([]);
     const [message, setMessage] = useState('');
     
+    const token = localStorage.getItem('token');
+    const headers = {
+        Authorization: `Bearer ${token}`
+    }
+    const decoded = jwtDecode(token);
+    const role = decoded.role;
+
     useEffect(() => {
         const fetchRequests = async () => {
             try {
-                const response = await axios.get('/api/requests');
+                const response = await axios.get('/api/requests', { headers });
                 setRequests(response.data); // Make requests a 2D array
                 console.log(response.data); // Print response to console
             } catch (error) {
@@ -22,7 +31,7 @@ const Requests = () => {
 
     const acceptRequest = async (requestId) => {
         try {
-            const response = await axios.post(`/api/requests/accept/${requestId}`);
+            const response = await axios.post(`/api/requests/accept/${requestId}`, {}, { headers });
             setMessage('Accepted');
             console.log(response.data);
             setRequests(requests.map(request => request.ID === requestId ? { ...request, Status: true } : request));
@@ -34,7 +43,7 @@ const Requests = () => {
 
     const denyRequest = async (requestId) => {
         try {
-            const response = await axios.post(`/api/requests/deny/${requestId}`);
+            const response = await axios.post(`/api/requests/deny/${requestId}`, {}, { headers });
             setMessage('Denied');
             console.log(response.data);
             setRequests(requests.map(request => request.ID === requestId ? { ...request, Status: false } : request));
@@ -46,7 +55,7 @@ const Requests = () => {
 
     return (
         <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '5px' }}>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr', gap: '5px' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: `${localStorage.getItem('role') === 'admin' ? '1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr' : '1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr'}`, gap: '5px' }}>
                 <p><strong>Description</strong></p>
                 <p><strong>Vendor</strong></p>
                 <p><strong>Part Number</strong></p>
@@ -57,7 +66,7 @@ const Requests = () => {
                 <p><strong>Status</strong></p>
             </div>
             {requests.map((request, index) => (
-                <div key={index} style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr', gap: '5px' }}>
+                <div key={index} style={{ display: 'grid', gridTemplateColumns: `${localStorage.getItem('role') === 'admin' ? '1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr' : '1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr'}`, gap: '5px' }}>
                     <p>{request.Description}</p>
                     <p>{request.Vendor}</p>
                     <p>{request.Part_Num}</p>
@@ -66,7 +75,7 @@ const Requests = () => {
                     <p>{request.Link}</p>
                     <p>{request.Notes}</p>
                     <p>{request.Status === null ? 'Awaiting Decision...' : request.Status ? 'Accepted' : 'Denied'}</p>
-                    {request.Status === null && (
+                    {localStorage.getItem('role') == 'admin' && request.Status === null && (
                         <p>
                             <button onClick={() => { acceptRequest(request.ID); }}>Accept</button>
                             <button onClick={() => { denyRequest(request.ID); }}>Deny</button>
@@ -77,9 +86,10 @@ const Requests = () => {
             <Link to="/">
                 <button>Home</button>
             </Link>
+            <p> Role: {role}</p>
             {message && <p>{message}</p>}
         </div>
     );
 };
 
-export default Requests;
+export default withAuth(Requests);

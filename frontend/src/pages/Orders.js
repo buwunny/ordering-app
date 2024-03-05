@@ -1,16 +1,22 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import withAuth from '../hocs/withAuth';
+
 
 import axios from 'axios';
 
 const Orders = () => {
     const [orders, setOrders] = useState([]);
     const [message, setMessage] = useState('');
+    
+    const headers = {
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+    }
 
     useEffect(() => {
         const fetchRequests = async () => {
             try {
-                const response = await axios.get('/api/orders');
+                const response = await axios.get('/api/orders', { headers });
                 console.log(response.data); // Print response to console
                 setOrders(response.data); // Make requests a 2D array
             } catch (error) {
@@ -63,4 +69,4 @@ const Orders = () => {
     );
 };
 
-export default Orders;
+export default withAuth(Orders);

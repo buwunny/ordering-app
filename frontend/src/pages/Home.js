@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import withAuth from '../hocs/withAuth';
 
 function Home() {
     return (
@@ -18,4 +19,4 @@ function Home() {
     );
 }
 
-export default Home;
+export default withAuth(Home);

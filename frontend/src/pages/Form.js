@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import withAuth from '../hocs/withAuth';
+
 
     const Form = () => {
         const initialFormData = {
@@ -12,9 +14,13 @@ import axios from 'axios';
             link: '',
             notes: ''
         };
-        const [formData, setFormData] = useState(initialFormData);
 
+        const [formData, setFormData] = useState(initialFormData);
         const [message, setMessage] = useState('');
+        
+        const headers = {
+            Authorization: `Bearer ${localStorage.getItem('token')}`
+        }
 
         const handleChange = (e) => {
             setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -23,7 +29,7 @@ import axios from 'axios';
         const handleSubmit = async (e) => {
             e.preventDefault();
             try {
-                const response = await axios.post('/api/form', formData);
+                const response = await axios.post('/api/form', formData, { headers });
                 setFormData(initialFormData);
                 setMessage('Form submitted successfully');
                 console.log(response.status);
@@ -121,4 +127,4 @@ import axios from 'axios';
         );
     };
 
-export default Form;
+export default withAuth(Form);
