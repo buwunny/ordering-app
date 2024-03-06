@@ -86,7 +86,6 @@ const Requests = () => {
             <Link to="/">
                 <button>Home</button>
             </Link>
-            <p> Role: {role}</p>
             {message && <p>{message}</p>}
         </div>
     );

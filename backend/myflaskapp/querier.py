@@ -53,3 +53,13 @@ def read_orders():
     dictCursor.execute("SELECT * FROM Orders")
     results = dictCursor.fetchall()
     return results
+
+def update_order(id, data):
+    query = """
+    UPDATE Orders 
+    SET Description = %s, Notes = %s, Order_Date = %s, Payee = %s, Invoice_Num = %s, Carted = %s, Ordered = %s, Received = %s 
+    WHERE ID = %s
+    """
+    values = (data['Description'], data['Notes'], data['Order_Date'], data['Payee'], data['Invoice_Num'], data['Carted'], data['Ordered'], data['Received'], id)
+    cursor.execute(query, values)
+    cnx.commit()
