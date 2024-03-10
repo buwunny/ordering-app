@@ -6,6 +6,7 @@ import Requests from './Requests';
 import Form from './Form';
 import Orders from './Orders';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import './styles.css';
 
 function App() {
     return (

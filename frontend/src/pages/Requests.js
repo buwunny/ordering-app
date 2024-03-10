@@ -3,11 +3,12 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import withAuth from '../hocs/withAuth';
 import { jwtDecode } from 'jwt-decode';
+import './styles.css';
 
 const Requests = () => {
     const [requests, setRequests] = useState([]);
     const [message, setMessage] = useState('');
-    
+
     const token = localStorage.getItem('token');
     const headers = {
         Authorization: `Bearer ${token}`
@@ -54,37 +55,62 @@ const Requests = () => {
     };
 
     return (
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '5px' }}>
-            <div style={{ display: 'grid', gridTemplateColumns: `${localStorage.getItem('role') === 'admin' ? '1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr' : '1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr'}`, gap: '5px' }}>
-                <p><strong>Description</strong></p>
-                <p><strong>Vendor</strong></p>
-                <p><strong>Part Number</strong></p>
-                <p><strong>Unit Price</strong></p>
-                <p><strong>Quantity</strong></p>
-                <p><strong>Link</strong></p>
-                <p><strong>Notes</strong></p>
-                <p><strong>Status</strong></p>
+        <div className="container-fluid">
+            <div className="row">
+                <div className="col">
+                    <strong>Description</strong>
+                </div>
+                <div className="col">
+                    <strong>Vendor</strong>
+                </div>
+                <div className="col">
+                    <strong>Part Number</strong>
+                </div>
+                <div className="col">
+                    <strong>Unit Price</strong>
+                </div>
+                <div className="col">
+                    <strong>Quantity</strong>
+                </div>
+                <div className="col">
+                    <strong>Link</strong>
+                </div>
+                <div className="col">
+                    <strong>Notes</strong>
+                </div>
+                <div className="col">
+                    <strong>Status</strong>
+                </div>
+                {localStorage.getItem('role') === 'admin' && (
+                    <div className="col">
+                        <strong>Actions</strong>
+                    </div>
+                )}
             </div>
             {requests.map((request, index) => (
-                <div key={index} style={{ display: 'grid', gridTemplateColumns: `${localStorage.getItem('role') === 'admin' ? '1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr' : '1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr'}`, gap: '5px' }}>
-                    <p>{request.Description}</p>
-                    <p>{request.Vendor}</p>
-                    <p>{request.Part_Num}</p>
-                    <p>{request.Unit_Price}</p>
-                    <p>{request.Quantity}</p>
-                    <p>{request.Link}</p>
-                    <p>{request.Notes}</p>
-                    <p>{request.Status === null ? 'Awaiting Decision...' : request.Status ? 'Accepted' : 'Denied'}</p>
-                    {localStorage.getItem('role') == 'admin' && request.Status === null && (
-                        <p>
-                            <button onClick={() => { acceptRequest(request.ID); }}>Accept</button>
-                            <button onClick={() => { denyRequest(request.ID); }}>Deny</button>
-                        </p>
+                <div className="row border-row" key={index}>
+                    <div className="col border-column">{request.Description}</div>
+                    <div className="col border-column">{request.Vendor}</div>
+                    <div className="col border-column">{request.Part_Num}</div>
+                    <div className="col border-column">{request.Unit_Price}</div>
+                    <div className="col border-column">{request.Quantity}</div>
+                    <div className="col border-column">{request.Link}</div>
+                    <div className="col border-column">{request.Notes}</div>
+                    <div className="col border-column">{request.Status === null ? 'Awaiting Decision...' : request.Status ? 'Accepted' : 'Denied'}</div>
+                    {localStorage.getItem('role') === 'admin' && (
+                        <div className="col border-column">
+                            {request.Status === null && (
+                                <>
+                                    <button className="btn btn-primary" onClick={() => { acceptRequest(request.ID); }}>Accept</button>
+                                    <button className="btn btn-danger" onClick={() => { denyRequest(request.ID); }}>Deny</button>
+                                </>
+                            )}
+                        </div>
                     )}
                 </div>
             ))}
             <Link to="/">
-                <button>Home</button>
+                <button className="btn btn-primary">Home</button>
             </Link>
             {message && <p>{message}</p>}
         </div>

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import withAuth from '../hocs/withAuth';
 import axios from 'axios';
+import './styles.css';
 
 const Orders = () => {
     const [orders, setOrders] = useState([]);
@@ -63,93 +64,149 @@ const Orders = () => {
     }
 
     return (
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '5px' }}>
-            <div>
-                <Link to="/">
-                    <button>Home</button>
-                </Link>
-                {changed && (<button onClick={saveChanges}>Save Changes</button>)}
+        <div className="container-fluid">
+            <div className="row">
+                <div className="col">
+                    <Link to="/">
+                        <button className="btn btn-primary">Home</button>
+                    </Link>
+                    {changed && (<button className="btn btn-primary" onClick={saveChanges}>Save Changes</button>)}
+                </div>
             </div>
-            <div style={{ display: 'grid', gridTemplateColumns: `${localStorage.getItem('role') === 'admin' ? '1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr' : '1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr'}`, gap: '5px' }}>
+            <div className="row">
                 {localStorage.getItem('role') === 'user' && (
-                    <p><strong>Status</strong></p>
-                
+                    <div className="col">
+                        <p><strong>Status</strong></p>
+                    </div>
                 )}
-                <p><strong>Description</strong></p>
-                <p><strong>Vendor</strong></p>
-                <p><strong>Part Number</strong></p>
-                <p><strong>Unit Price</strong></p>
-                <p><strong>Quantity</strong></p>
-                <p><strong>Link</strong></p>
-                <p><strong>Notes</strong></p>
-                <p><strong>Order Date</strong></p>
+                <div className="col">
+                    <p><strong>Description</strong></p>
+                </div>
+                <div className="col">
+                    <p><strong>Vendor</strong></p>
+                </div>
+                <div className="col">
+                    <p><strong>Part Number</strong></p>
+                </div>
+                <div className="col">
+                    <p><strong>Unit Price</strong></p>
+                </div>
+                <div className="col">
+                    <p><strong>Quantity</strong></p>
+                </div>
+                <div className="col">
+                    <p><strong>Link</strong></p>
+                </div>
+                <div className="col">
+                    <p><strong>Notes</strong></p>
+                </div>
+                <div className="col">
+                    <p><strong>Order Date</strong></p>
+                </div>
                 {localStorage.getItem('role') === 'admin' && (
                     <>
-                        <p><strong>Payee</strong></p>
-                        <p><strong>Invoice Number</strong></p>
-                        <p><strong>Carted</strong></p>
-                        <p><strong>Ordered</strong></p>
-                        <p><strong>Received</strong></p>
+                        <div className="col">
+                            <p><strong>Payee</strong></p>
+                        </div>
+                        <div className="col">
+                            <p><strong>Invoice Number</strong></p>
+                        </div>
+                        <div className="col">
+                            <p><strong>Carted</strong></p>
+                        </div>
+                        <div className="col">
+                            <p><strong>Ordered</strong></p>
+                        </div>
+                        <div className="col">
+                            <p><strong>Received</strong></p>
+                        </div>
                     </>
                 )}
-
             </div>
             {orders.map((order, index) => (
-                <div style={{ display: 'grid', gridTemplateColumns: `${localStorage.getItem('role') === 'admin' ? '1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr' : '1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr'}`, gap: '5px' }}>
+                <div className="row border-row">
                     {localStorage.getItem('role') === 'user' && (
-                        <>
-                            {order.Received ? (
-                                <p>Received</p>
-                            ) : order.Ordered ? (
-                                <p>Ordered</p>
-                            ) : order.Carted ? (
-                                <p>Carted</p>
-                            ) : (
-                                <p></p>
-                            )}
-                        </>
+                        <div className="col border-column">
+                            <>
+                                {order.Received ? (
+                                    <p>Received</p>
+                                ) : order.Ordered ? (
+                                    <p>Ordered</p>
+                                ) : order.Carted ? (
+                                    <p>Carted</p>
+                                ) : (
+                                    <p></p>
+                                )}
+                            </>
+                        </div>
                     )}
-                    <p>{order.Description}</p>
-                    <p>{order.Vendor}</p>
-                    <p>{order.Part_Num}</p>
-                    <p>{order.Unit_Price}</p>
-                    <p>{order.Quantity}</p>
-                    <p>{order.Link}</p>
-                    <p>{order.Notes}</p>
-                    <p>{order.Order_Date}</p>
+                    <div className="col border-column">
+                        <p>{order.Description}</p>
+                    </div>
+                    <div className="col border-column">
+                        <p>{order.Vendor}</p>
+                    </div>
+                    <div className="col border-column">
+                        <p>{order.Part_Num}</p>
+                    </div>
+                    <div className="col border-column">
+                        <p>{order.Unit_Price}</p>
+                    </div>
+                    <div className="col border-column">
+                        <p>{order.Quantity}</p>
+                    </div>
+                    <div className="col border-column">
+                        <p>{order.Link}</p>
+                    </div>
+                    <div className="col border-column">
+                        <p>{order.Notes}</p>
+                    </div>
+                    <div className="col border-column">
+                        <p>{order.Order_Date}</p>
+                    </div>
                     {localStorage.getItem('role') === 'admin' && (
                         <>
-                            <select value={order.Payee} onChange={(e) => handleChange(index, e, "Payee")} style={{ marginTop: '15px' }}>
-                                <option value={null}>None</option>
-                                <option value="McQ">McQuaid</option>
-                                <option value="RCR">RCR</option>
-                                <option value="Donation">Donation</option>
-                                <option value="Voucher">Voucher</option>
-                            </select>
-
-                            <input
-                                type="text"
-                                value={order.Invoice_Num}
-                                onChange={(e) => handleChange(index, e, "Invoice_Num")}
-                            />
-
-                            <input
-                                type="checkbox"
-                                checked={order.Carted}
-                                onChange={(e) => handleChange(index, { target: { value: e.target.checked } }, "Carted")}
-                            />
-
-                            <input
-                                type="checkbox"
-                                checked={order.Ordered}
-                                onChange={(e) => handleOrderedChange(index, { target: { value: e.target.checked } }, "Ordered")}
-                            />
-
-                            <input
-                                type="checkbox"
-                                checked={order.Received}
-                                onChange={(e) => handleChange(index, { target: { value: e.target.checked } }, "Received")}
-                            />
+                            <div className="col border-column">
+                                <select className="form-select" value={order.Payee} onChange={(e) => handleChange(index, e, "Payee")}>
+                                    <option value={null}>None</option>
+                                    <option value="McQ">McQuaid</option>
+                                    <option value="RCR">RCR</option>
+                                    <option value="Donation">Donation</option>
+                                    <option value="Voucher">Voucher</option>
+                                </select>
+                            </div>
+                            <div className="col border-column">
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    value={order.Invoice_Num}
+                                    onChange={(e) => handleChange(index, e, "Invoice_Num")}
+                                />
+                            </div>
+                            <div className="col border-column">
+                                <input
+                                    type="checkbox"
+                                    className="form-check-input"
+                                    checked={order.Carted}
+                                    onChange={(e) => handleChange(index, { target: { value: e.target.checked } }, "Carted")}
+                                />
+                            </div>
+                            <div className="col border-column">
+                                <input
+                                    type="checkbox"
+                                    className="form-check-input"
+                                    checked={order.Ordered}
+                                    onChange={(e) => handleOrderedChange(index, { target: { value: e.target.checked } }, "Ordered")}
+                                />
+                            </div>
+                            <div className="col border-column">
+                                <input
+                                    type="checkbox"
+                                    className="form-check-input"
+                                    checked={order.Received}
+                                    onChange={(e) => handleChange(index, { target: { value: e.target.checked } }, "Received")}
+                                />
+                            </div>
                         </>
                     )}
                 </div>

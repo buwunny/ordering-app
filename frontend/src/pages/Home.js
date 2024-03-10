@@ -4,16 +4,16 @@ import withAuth from '../hocs/withAuth';
 
 function Home() {
     return (
-        <div>
+        <div className="container-fluid">
             <h1>Hello World!</h1>
             <Link to="/form">
-                <button>Form</button>
+                <button className="btn">Form</button>
             </Link>
             <Link to="/requests">
-                <button>Requests</button>
+                <button className="btn">Requests</button>
             </Link>
             <Link to="/orders">
-                <button>Orders</button>
+                <button className="btn">Orders</button>
             </Link>
         </div>
     );
