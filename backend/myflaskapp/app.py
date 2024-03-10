@@ -55,7 +55,7 @@ def accept_request(id):
         querier.request_to_order(id)
         return jsonify({'status': 'success'}), 200
     else:
-        return jsonify({'status': 'error', 'message': 'Forbidden'}), 403
+        return jsonify({'status': 'error', 'message': 'Unauthorized'}), 401
 
 @app.route('/api/requests/deny/<int:id>', methods=['POST'])
 @jwt_required()
@@ -66,7 +66,7 @@ def deny_request(id):
         querier.update_request_status(id, 0)
         return jsonify({'status': 'success'}), 200
     else:
-        return jsonify({'status': 'error', 'message': 'Forbidden'}), 403
+        return jsonify({'status': 'error', 'message': 'Unauthorized'}), 401
 
 # ORDERS
 @app.route('/api/orders', methods=['GET'])
@@ -80,7 +80,7 @@ def update_order(id):
     claims = get_jwt()
     if claims['role'] == 'admin':
         data = request.json
-        print(data)
+        # print(data)
         querier.update_order(id, data)
         return jsonify({'status': 'success'}), 200
     else:
