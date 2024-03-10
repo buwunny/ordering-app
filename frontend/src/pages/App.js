@@ -5,6 +5,8 @@ import Login from './Login';
 import Requests from './Requests';
 import Form from './Form';
 import Orders from './Orders';
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 function App() {
     return (
         <Router>

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { jwtDecode } from 'jwt-decode';
+import './styles.css';
 
 function LoginPage() {
     const navigate = useNavigate();
@@ -30,19 +31,35 @@ function LoginPage() {
     };
 
     return (
-        <div>
-            <form onSubmit={handleSubmit}>
-                <label>
-                    Username:
-                    <input type="text" value={username} onChange={e => setUsername(e.target.value)} />
-                </label>
-                <label>
-                    Password:
-                    <input type="password" value={password} onChange={e => setPassword(e.target.value)} />
-                </label>
-                <input type="submit" value="Log in" />
-            </form>
-            {error && <p>{error}</p>}
+        <div className="container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100vh', width: '100%', backgroundColor: 'black'}}>
+            <div className="center-content">
+                <form onSubmit={handleSubmit}>
+                    <div className="form-group">
+                        <label htmlFor="username" style={{ color: 'white' }}>Username:</label>
+                        <input
+                            type="text"
+                            className="form-control"
+                            id="username"
+                            value={username}
+                            onChange={e => setUsername(e.target.value)}
+                            style={{ backgroundColor: 'white', color: 'black' }}
+                        />
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="password" style={{ color: 'white' }}>Password:</label>
+                        <input
+                            type="password"
+                            className="form-control"
+                            id="password"
+                            value={password}
+                            onChange={e => setPassword(e.target.value)}
+                            style={{ backgroundColor: 'white', color: 'black' }}
+                        />
+                    </div>
+                    <button type="submit" className="btn btn-primary" style={{ backgroundColor: '#FAB532', border: '1px solid black' }}>Log in</button>
+                </form>
+                {error && <label htmlFor="error" style={{ color: 'white' }}> {error}</label>}
+            </div>
         </div>
     );
 }
