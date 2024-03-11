@@ -30,8 +30,14 @@ label {
 .container-fluid .btn {
     background-color: #FAB532;
     border: 1px solid black;
+    color: white
 }
 
+.form-control-file {
+    background-color: #FAB532;
+    border:1px solid black;
+    color:white
+}
 
 .col {
     overflow-x:auto;
@@ -50,10 +56,10 @@ label {
 }
 
 
-.table-container {
+/* .table-container {
     height: 1000px;
-    /* overflow-y: auto; */
-}
+    overflow-y: auto; 
+} */
 
 @media (max-width: 1000px) {
     .table-container {

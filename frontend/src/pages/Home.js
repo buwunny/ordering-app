@@ -15,6 +15,9 @@ function Home() {
             <Link to="/orders">
                 <button className="btn">Orders</button>
             </Link>
+            <Link to="/upload">
+                <button className="btn">Orders</button>
+            </Link>
         </div>
     );
 }
