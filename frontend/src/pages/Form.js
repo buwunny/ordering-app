@@ -42,8 +42,17 @@ const Form = () => {
     return (
         <div className="container-fluid">
             <Link to="/">
-                <button className="btn btn-secondary">Home</button>
-            </Link>
+                    <button className="btn btn-primary">Home</button>
+                </Link>
+                <Link to="/form">
+                    <button className="btn btn-primary">Form</button>
+                </Link>
+                <Link to="/requests">
+                    <button className="btn btn-primary">Requests</button>
+                </Link>
+                <Link to="/orders">
+                    <button className="btn btn-primary">Orders</button>
+                </Link>
             <div className="container-fluid" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', }}>
                 <form onSubmit={handleSubmit} style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px', justifyContent: 'center' }}>
                     <div className="form-group">

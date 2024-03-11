@@ -6,6 +6,7 @@ import './styles.css';
 
 const Orders = () => {
     const [orders, setOrders] = useState([]);
+    const [originalOrders, setOriginalOrders] = useState([]);
     const [message, setMessage] = useState('');
     const [changed, setChanged] = useState(false);
 
@@ -18,27 +19,21 @@ const Orders = () => {
             try {
                 const response = await axios.get('/api/orders', { headers });
                 console.log(response.data); // Print response to console
+                setOriginalOrders(response.data);
                 setOrders(response.data); // Make requests a 2D array
             } catch (error) {
                 setMessage('An error occurred');
             }
-        };
+        }
         fetchRequests();
     }, []);
+
 
     async function handleChange(index, event, field) {
         const newOrders = [...orders];
         newOrders[index][field] = event.target.value;
         setOrders(newOrders);
         setChanged(true);
-        
-        // try {
-        //     const response = await axios.put(`/api/orders/${orders[index].ID}`, newOrders[index], { headers });
-        //     setMessage(response.status);
-        // } catch (error) {
-        //     console.log(error)
-        //     setMessage('An error occurred');
-        // }
     }
 
     async function handleOrderedChange(index, event, field){
@@ -63,17 +58,43 @@ const Orders = () => {
         }
     }
 
+    function cancelChanges() {
+        setOrders([...originalOrders]);
+        setChanged(false);
+        setMessage('Changes cancelled');
+    }
+
     return (
         <div className="container-fluid">
-            <div className="row">
-                <div className="col">
-                    <Link to="/">
-                        <button className="btn btn-primary">Home</button>
-                    </Link>
-                    {changed && (<button className="btn btn-primary" onClick={saveChanges}>Save Changes</button>)}
-                </div>
+            <div>
+                <Link to="/">
+                    <button className="btn btn-primary">Home</button>
+                </Link>
+                <Link to="/form">
+                    <button className="btn btn-primary">Form</button>
+                </Link>
+                <Link to="/requests">
+                    <button className="btn btn-primary">Requests</button>
+                </Link>
+                <Link to="/orders">
+                    <button className="btn btn-primary">Orders</button>
+                </Link>
             </div>
-            <div className="row">
+            <div>
+                {changed && (
+                    <>
+                        <button className="btn btn-primary" onClick={saveChanges}>
+                            Save Changes
+                        </button>
+                        <button className="btn btn-primary" onClick={cancelChanges}>
+                            Cancel Changes
+                        </button>
+                    </>
+                )}
+                {message && <p>{message}</p>}
+            </div>
+            <div className="table-container">
+                <div className="row">
                 {localStorage.getItem('role') === 'user' && (
                     <div className="col">
                         <p><strong>Status</strong></p>
@@ -211,7 +232,7 @@ const Orders = () => {
                     )}
                 </div>
             ))}
-            {message && <p>{message}</p>}
+            </div>
         </div>
     );
 };

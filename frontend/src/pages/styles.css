@@ -46,4 +46,25 @@ label {
 .border-column {
     border: 1px solid #FAB532;
     color: white;
+    height: 40px;
+}
+
+
+.table-container {
+    height: 1000px;
+    /* overflow-y: auto; */
+}
+
+@media (max-width: 1000px) {
+    .table-container {
+        width: 1000px;
+        height: 1000px;
+        overflow: auto;
+        padding-left: 15px;
+    }
+    
+}
+
+.form-check-input:checked {
+    background-color: #FAB532;
 }

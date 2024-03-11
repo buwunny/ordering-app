@@ -56,6 +56,18 @@ const Requests = () => {
 
     return (
         <div className="container-fluid">
+            <Link to="/">
+                <button className="btn btn-primary">Home</button>
+            </Link>
+            <Link to="/form">
+                <button className="btn btn-primary">Form</button>
+            </Link>
+            <Link to="/requests">
+                <button className="btn btn-primary">Requests</button>
+            </Link>
+            <Link to="/orders">
+                <button className="btn btn-primary">Orders</button>
+            </Link>
             <div className="row">
                 <div className="col">
                     <strong>Description</strong>
@@ -109,9 +121,6 @@ const Requests = () => {
                     )}
                 </div>
             ))}
-            <Link to="/">
-                <button className="btn btn-primary">Home</button>
-            </Link>
             {message && <p>{message}</p>}
         </div>
     );
