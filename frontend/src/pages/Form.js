@@ -40,19 +40,21 @@ const Form = () => {
     };
 
     return (
-        <div className="container-fluid">
-            <Link to="/">
-                <button className="btn btn-primary">Home</button>
-            </Link>
-            <Link to="/form">
-                <button className="btn btn-primary">Form</button>
-            </Link>
-            <Link to="/requests">
-                <button className="btn btn-primary">Requests</button>
-            </Link>
-            <Link to="/orders">
-                <button className="btn btn-primary">Orders</button>
-            </Link>
+        <div className="container-fluid" style={{padding: '0px'}}>
+            <div>
+                <Link to="/">
+                    <button className="btn btn-primary">Home</button>
+                </Link>
+                <Link to="/form">
+                    <button className="btn btn-primary">Form</button>
+                </Link>
+                <Link to="/requests">
+                    <button className="btn btn-primary">Requests</button>
+                </Link>
+                <Link to="/orders">
+                    <button className="btn btn-primary">Orders</button>
+                </Link>
+            </div>
             <div className="container-fluid" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', }}>
                 <div>
                     <form onSubmit={handleSubmit} style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px', justifyContent: 'center' }}>
@@ -68,6 +70,31 @@ const Form = () => {
                                 required
                             />
                         </div>
+                        <div className="form-group">
+                            <label htmlFor="purpose">Purpose:</label>
+                            <select className="form-select" value={formData.purpose} onChange={handleChange} name="purpose" required>
+                                <option value="Robot Parts">Robot Parts</option>
+                                <option value="Tools">Tools</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+
+                        {formData.purpose === "Other" && (
+                            <div className="form-group" style={{ gridColumn: 'span 2' }}>
+                                <label htmlFor="otherPurpose">Other Purpose:</label>
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    id="otherPurpose"
+                                    name="otherPurpose"
+                                    value={formData.otherPurpose}
+                                    onChange={handleChange}
+                                    required
+                                />
+                            </div>
+                        )}
+
+                        
                         <div className="form-group">
                             <label htmlFor="vendor">Vendor:</label>
                             <input
@@ -116,14 +143,34 @@ const Form = () => {
                                 required
                             />
                         </div>
-                        <div className="form-group">
-                            <label htmlFor="link">Link:</label>
+                        <div className="form-group" style={{ gridColumn: 'span 2' }}>
+                            <label htmlFor="link ">Link:</label>
                             <input
                                 type="text"
                                 className="form-control"
                                 id="link"
                                 name="link"
                                 value={formData.link}
+                                onChange={handleChange}
+                                required
+                            />
+                        </div>
+                        <div className="form-group">
+                            <label htmlFor="priority">Priority:</label>
+                            <select className="form-select" value={formData.priority} onChange={(e) => handleChange(e, "priority")} required>
+                                <option value="Low">Low</option>
+                                <option value="Medium">Medium</option>
+                                <option value="High">High</option>
+                            </select>
+                        </div>
+                        <div className="form-group">
+                            <label htmlFor="requester">Your Name:</label>
+                            <input
+                                type="text"
+                                className="form-control"
+                                id="requester"
+                                name="requester"
+                                value={formData.requester}
                                 onChange={handleChange}
                                 required
                             />
