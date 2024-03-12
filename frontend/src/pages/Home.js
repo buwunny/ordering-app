@@ -16,7 +16,7 @@ function Home() {
                 <button className="btn">Orders</button>
             </Link>
             <Link to="/upload">
-                <button className="btn">Orders</button>
+                <button className="btn">Upload</button>
             </Link>
         </div>
     );

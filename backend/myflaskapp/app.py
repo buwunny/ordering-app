@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, jsonify
 from flask_jwt_extended import JWTManager, jwt_required, create_access_token, get_jwt
 from werkzeug.security import generate_password_hash, check_password_hash
-import querier, json
+import querier, csv_handler, json
 
 credentials = json.load(open('/home/bunny/repos/ordering-app/backend/myflaskapp/credentials.json'))
 
@@ -38,6 +38,15 @@ def handle_form():
         'data': form_data
     }
     return jsonify(response)
+
+@app.route('/api/upload', methods=['POST'])
+def handle_upload():
+    file = request.files['file']
+    if csv_handler.file_validation(file):
+        file.save(f'/home/bunny/repos/ordering-app/backend/myflaskapp/uploads/{file.filename}')
+        return jsonify({'status': 'success'}), 200
+    else:
+        return jsonify({'status': 'error', 'message': 'Invalid file'}), 400
 
 # REQUESTS
 @app.route('/api/requests', methods=['GET'])
