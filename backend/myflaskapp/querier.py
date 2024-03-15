@@ -13,8 +13,8 @@ results = cursor.fetchall()
 
 # REQUESTS FUNCTIONS
 def create_request(data):
-    query = "INSERT INTO Requests (Description, Vendor, Part_Num, Unit_Price, Quantity, Link, Notes) VALUES (%s, %s, %s, %s, %s, %s, %s)"
-    values = tuple(data[key] for key in ['description', 'vendor', 'partNumber', 'unitPrice', 'quantity', 'link', 'notes'])
+    query = "INSERT INTO Requests (Description, Vendor, Part_Num, Unit_Price, Quantity, Link, Notes, Requester, Purpose, Priority) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
+    values = tuple(data[key] for key in ['description', 'vendor', 'partNumber', 'unitPrice', 'quantity', 'link', 'notes', 'requester', 'purpose', 'priority'])
     cursor.execute(query, values)
     cnx.commit()
 

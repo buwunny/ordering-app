@@ -41,12 +41,21 @@ def handle_form():
 
 @app.route('/api/upload', methods=['POST'])
 def handle_upload():
+    # if 'file' not in request.files:
+    #     return 'No file part in the request', 400
+
     file = request.files['file']
-    if csv_handler.file_validation(file):
-        file.save(f'/home/bunny/repos/ordering-app/backend/myflaskapp/uploads/{file.filename}')
-        return jsonify({'status': 'success'}), 200
+    requester = request.form.get('requester')
+    
+    # if file.filename == '':
+    #     return 'No selected file', 400
+
+    message, valid = csv_handler.file_validation(file)
+    if valid:
+        csv_handler.csv_to_db(file, requester)
+        return jsonify({'status': 'success', 'message': message}), 200
     else:
-        return jsonify({'status': 'error', 'message': 'Invalid file'}), 400
+        return jsonify({'status': 'error', 'message': message}), 400
 
 # REQUESTS
 @app.route('/api/requests', methods=['GET'])
