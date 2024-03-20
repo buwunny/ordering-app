@@ -41,6 +41,7 @@ label {
 
 .col {
     overflow-x:auto;
+    overflow-y:hidden;
     white-space: nowrap;
     color: white;
 }
@@ -54,7 +55,6 @@ label {
     color: white;
     height: 40px;
 }
-
 
 /* .table-container {
     height: 1000px;

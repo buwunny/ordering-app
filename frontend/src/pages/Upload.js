@@ -34,9 +34,13 @@ function Upload() {
                 console.log('File uploaded successfully:', response.data);
                 setMessage(response.data.message);
             } catch (error) {
-                console.error('Error uploading file:', error);
+            console.error('Error uploading file:', error);
+            if (error.response && error.response.data && error.response.data.message) {
+                setMessage(error.response.data.message);
+            } else {
                 setMessage("Error uploading file. Ensure the file follows the correct format.");
             }
+}
         } else {
             console.log('No file selected');
         }
@@ -54,7 +58,7 @@ function Upload() {
                 </div>
                 <div className="form-group">
                     <label htmlFor="textInput">Requester:</label>
-                    <input type="text" className="form-control" id="textInput" value={textInput} onChange={handleTextChange} />
+                    <input type="text" className="form-control" id="textInput" value={textInput} onChange={handleTextChange} required/>
                 </div>
                 <button type="submit" className="btn btn-primary">Upload</button>
             </form>

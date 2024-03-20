@@ -7,11 +7,14 @@ import './styles.css'
 const Form = () => {
     const initialFormData = {
         description: '',
+        purpose: 'Robot Parts',
         vendor: '',
         partNumber: '',
         quantity: '',
         unitPrice: '',
         link: '',
+        priority: 'Low',
+        requester: '',
         notes: ''
     };
 
@@ -72,14 +75,21 @@ const Form = () => {
                         </div>
                         <div className="form-group">
                             <label htmlFor="purpose">Purpose:</label>
-                            <select className="form-select" value={formData.purpose} onChange={handleChange} name="purpose" required>
+                            <select 
+                                className="form-select"
+                                id="purpose"
+                                name="purpose"
+                                value={formData.purpose}
+                                onChange={handleChange}
+                                required
+                            >
                                 <option value="Robot Parts">Robot Parts</option>
                                 <option value="Tools">Tools</option>
                                 <option value="Other">Other</option>
                             </select>
                         </div>
 
-                        {formData.purpose === "Other" && (
+                        {/* {formData.purpose === "Other" && (
                             <div className="form-group" style={{ gridColumn: 'span 2' }}>
                                 <label htmlFor="otherPurpose">Other Purpose:</label>
                                 <input
@@ -92,7 +102,7 @@ const Form = () => {
                                     required
                                 />
                             </div>
-                        )}
+                        )} */}
 
                         
                         <div className="form-group">
@@ -116,7 +126,6 @@ const Form = () => {
                                 name="partNumber"
                                 value={formData.partNumber}
                                 onChange={handleChange}
-                                required
                             />
                         </div>
                         <div className="form-group">
@@ -157,7 +166,14 @@ const Form = () => {
                         </div>
                         <div className="form-group">
                             <label htmlFor="priority">Priority:</label>
-                            <select className="form-select" value={formData.priority} onChange={(e) => handleChange(e, "priority")} required>
+                            <select
+                                className="form-select"
+                                id="priority"
+                                name="priority"
+                                value={formData.priority}
+                                onChange={(e) => handleChange(e, "priority")}
+                                required
+                            >
                                 <option value="Low">Low</option>
                                 <option value="Medium">Medium</option>
                                 <option value="High">High</option>

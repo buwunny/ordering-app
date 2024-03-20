@@ -31,7 +31,7 @@ def home(path):
 @app.route('/api/form', methods=['POST'])
 def handle_form():
     form_data = request.json
-    
+
     querier.create_request(form_data)
     response = {
         'status': 'success',

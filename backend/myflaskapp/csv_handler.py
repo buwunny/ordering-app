@@ -26,20 +26,23 @@ def file_validation(file):
     return "Success", True
 
 def csv_to_db(file, requester):
+    file.stream.seek(0)
     file_stream = file.stream.read().decode('utf-8')
     csv_file = StringIO(file_stream)
+    
     reader = csv.DictReader(csv_file)
+    print(requester)
+    print('j.')
     for row in reader:
-        print(row)
-        # querier.create_request({
-        #     'description': row['Description'],
-        #     'vendor': row['Vendor'],
-        #     'partNumber': row['Part Number'],
-        #     'unitPrice': row['Unit Price'],
-        #     'quantity': row['Quantity'],
-        #     'link': row['Link'],
-        #     'notes': row['Notes'],
-        #     'requester': requester,
-        #     'purpose': row['Purpose'],
-        #     'priotiy': row['Priority']
-        # })
+        querier.create_request({
+            'description': row['Description'],
+            'vendor': row['Vendor'],
+            'partNumber': row['Part Number'],
+            'unitPrice': row['Unit Price'],
+            'quantity': row['Quantity'],
+            'link': row['Link'],
+            'notes': row['Notes'],
+            'requester': requester,
+            'purpose': row['Purpose'],
+            'priority': row['Priority']
+        })
