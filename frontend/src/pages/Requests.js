@@ -68,60 +68,78 @@ const Requests = () => {
             <Link to="/orders">
                 <button className="btn btn-primary">Orders</button>
             </Link>
-            <div className="row">
-                <div className="col">
-                    <strong>Description</strong>
-                </div>
-                <div className="col">
-                    <strong>Vendor</strong>
-                </div>
-                <div className="col">
-                    <strong>Part Number</strong>
-                </div>
-                <div className="col">
-                    <strong>Unit Price</strong>
-                </div>
-                <div className="col">
-                    <strong>Quantity</strong>
-                </div>
-                <div className="col">
-                    <strong>Link</strong>
-                </div>
-                <div className="col">
-                    <strong>Notes</strong>
-                </div>
-                <div className="col">
-                    <strong>Status</strong>
-                </div>
-                {localStorage.getItem('role') === 'admin' && (
-                    <div className="col">
-                        <strong>Actions</strong>
-                    </div>
-                )}
+            <div>
+                {message && <p>{message}</p>}
             </div>
-            {requests.map((request, index) => (
-                <div className="row border-row" key={index}>
-                    <div className="col border-column">{request.Description}</div>
-                    <div className="col border-column">{request.Vendor}</div>
-                    <div className="col border-column">{request.Part_Num}</div>
-                    <div className="col border-column">{request.Unit_Price}</div>
-                    <div className="col border-column">{request.Quantity}</div>
-                    <div className="col border-column">{request.Link}</div>
-                    <div className="col border-column">{request.Notes}</div>
-                    <div className="col border-column">{request.Status === null ? 'Awaiting Decision...' : request.Status ? 'Accepted' : 'Denied'}</div>
+
+            <div className='table-container'>
+
+                <div className="row">
+                    <div className="col">
+                        <strong>Description</strong>
+                    </div>
+                    <div className="col">
+                        <strong>Vendor</strong>
+                    </div>
+                    <div className="col">
+                        <strong>Part Number</strong>
+                    </div>
+                    <div className="col">
+                        <strong>Unit Price</strong>
+                    </div>
+                    <div className="col">
+                        <strong>Quantity</strong>
+                    </div>
+                    <div className="col">
+                        <strong>Link</strong>
+                    </div>
+                    <div className="col">
+                        <strong>Notes</strong>
+                    </div>
+                    <div className="col">
+                        <strong>Status</strong>
+                    </div>
+                    <div className="col">
+                        <strong>Purpose</strong>
+                    </div>
+                    <div className="col">
+                        <strong>Priority</strong>
+                    </div>
+                    <div className="col">
+                        <strong>Requester</strong>
+                    </div>
                     {localStorage.getItem('role') === 'admin' && (
-                        <div className="col border-column">
-                            {request.Status === null && (
-                                <>
-                                    <button className="btn btn-primary" onClick={() => { acceptRequest(request.ID); }}>Accept</button>
-                                    <button className="btn btn-danger" onClick={() => { denyRequest(request.ID); }}>Deny</button>
-                                </>
-                            )}
+                        <div className="col">
+                            <strong>Actions</strong>
                         </div>
                     )}
                 </div>
-            ))}
-            {message && <p>{message}</p>}
+                {requests.map((request, index) => (
+                    <div className="row border-row" key={index}>
+                        <div className="col border-column">{request.Description}</div>
+                        <div className="col border-column">{request.Vendor}</div>
+                        <div className="col border-column">{request.Part_Num}</div>
+                        <div className="col border-column">{request.Unit_Price}</div>
+                        <div className="col border-column">{request.Quantity}</div>
+                        <div className="col border-column">{request.Link}</div>
+                        <div className="col border-column">{request.Notes}</div>
+                        <div className="col border-column">{request.Purpose}</div>
+                        <div className="col border-column">{request.Priority}</div>
+                        <div className="col border-column">{request.Requester}</div>
+                        <div className="col border-column">{request.Status === null ? 'Awaiting Decision...' : request.Status ? 'Accepted' : 'Denied'}</div>
+                        {localStorage.getItem('role') === 'admin' && (
+                            <div className="col border-column">
+                                {request.Status === null && (
+                                    <>
+                                        <button className="btn btn-primary" onClick={() => { acceptRequest(request.ID); }}>Accept</button>
+                                        <button className="btn btn-danger" onClick={() => { denyRequest(request.ID); }}>Deny</button>
+                                    </>
+                                )}
+                            </div>
+                        )}
+                    </div>
+                ))}
+            </div>
         </div>
     );
 };
