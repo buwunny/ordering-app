@@ -14,6 +14,11 @@ const Orders = () => {
         Authorization: `Bearer ${localStorage.getItem('token')}`
     };
 
+    const currency = new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'USD',
+    });
+
     useEffect(() => {
         const fetchRequests = async () => {
             try {
@@ -93,156 +98,116 @@ const Orders = () => {
                 {message && <p>{message}</p>}
             </div>
             <div className="table-container">
-                <div className="row">
-                    {localStorage.getItem('role') === 'user' && (
-                        <div className="col">
-                            <strong>Status</strong>
-                        </div>
-                    )}
-                    <div className="col">
-                        <strong>Description</strong>
-                    </div>
-                    <div className="col">
-                        <strong>Vendor</strong>
-                    </div>
-                    <div className="col">
-                        <strong>Part Number</strong>
-                    </div>
-                    <div className="col">
-                        <strong>Unit Price</strong>
-                    </div>
-                    <div className="col">
-                        <strong>Quantity</strong>
-                    </div>
-                    <div className="col">
-                        <strong>Link</strong>
-                    </div>
-                    <div className="col">
-                        <strong>Notes</strong>
-                    </div>
-                    <div className="col">
-                        <strong>Order Date</strong>
-                    </div>
-                    <div className="col">
-                        <strong>Purpose</strong>
-                    </div>
-                    <div className="col">
-                        <strong>Priority</strong>
-                    </div>
-                    {localStorage.getItem('role') === 'admin' && (
-                        <>
-                            <div className="col">
-                                <strong>Payee</strong>
-                            </div>
-                            <div className="col">
-                                <strong>Invoice Number</strong>
-                            </div>
-                            <div className="col">
-                                <strong>Carted</strong>
-                            </div>
-                            <div className="col">
-                                <strong>Ordered</strong>
-                            </div>
-                            <div className="col">
-                                <strong>Received</strong>
-                            </div>
-                        </>
-                    )}
-                </div>
-                {orders.map((order, index) => (
-                    <div className="row border-row" key={index}>
-                        {localStorage.getItem('role') === 'user' && (
-                            <div className="col border-column">
-                                <>
-                                    {order.Received ? (
-                                        Received
-                                    ) : order.Ordered ? (
-                                        Ordered
-                                    ) : order.Carted ? (
-                                        Carted
-                                    ) : (
-                                        <></>
-                                    )}
-                                </>
-                            </div>
-                        )}
-                        <div className="col border-column">
-                            {order.Description}
-                        </div>
-                        <div className="col border-column">
-                            {order.Vendor}
-                        </div>
-                        <div className="col border-column">
-                            {order.Part_Num}
-                        </div>
-                        <div className="col border-column">
-                            {order.Unit_Price}
-                        </div>
-                        <div className="col border-column">
-                            {order.Quantity}
-                        </div>
-                        <div className="col border-column">
-                            {order.Link}
-                        </div>
-                        <div className="col border-column">
-                            {order.Notes}
-                        </div>
-                        <div className="col border-column">
-                            {order.Order_Date}
-                        </div>
-                        <div className="col border-column">
-                            {order.Purpose}
-                        </div>
-                        <div className="col border-column">
-                            {order.Priority}
-                        </div>
-                        {localStorage.getItem('role') === 'admin' && (
+                <table>
+                    <thead>
+                        <tr>
+                            <th><div className='cell-content medium'>Description</div></th>
+                            {localStorage.getItem('role') === 'user' && (<th><div className='cell-content medium'>Status</div></th>)}
+                            <th><div className='cell-content medium'>Priority</div></th>
+                            <th><div className='cell-content medium'>Purpose</div></th>
+                            <th><div className='cell-content medium'>Vendor</div></th>
+                            <th><div className='cell-content medium'>Part Number</div></th>
+                            <th><div className='cell-content small'>Unit Price</div></th>
+                            <th><div className='cell-content small'>Quantity</div></th>
+                            <th><div className='cell-content large'>Link</div></th>
+                            <th><div className='cell-content medium'>Notes</div></th>
+                            <th><div className='cell-content medium'>Order Date</div></th>
+                            {localStorage.getItem('role') === 'admin' && (
                             <>
-                                <div className="col border-column">
-                                    <select className="form-select" value={order.Payee} onChange={(e) => handleChange(index, e, "Payee")}>
-                                        <option value={null}>None</option>
-                                        <option value="McQ">McQuaid</option>
-                                        <option value="RCR">RCR</option>
-                                        <option value="Donation">Donation</option>
-                                        <option value="Voucher">Voucher</option>
-                                    </select>
-                                </div>
-                                <div className="col border-column">
-                                    <input
-                                        type="text"
-                                        className="form-control"
-                                        value={order.Invoice_Num}
-                                        onChange={(e) => handleChange(index, e, "Invoice_Num")}
-                                    />
-                                </div>
-                                <div className="col border-column">
-                                    <input
-                                        type="checkbox"
-                                        className="form-check-input"
-                                        checked={order.Carted}
-                                        onChange={(e) => handleChange(index, { target: { value: e.target.checked } }, "Carted")}
-                                    />
-                                </div>
-                                <div className="col border-column">
-                                    <input
-                                        type="checkbox"
-                                        className="form-check-input"
-                                        checked={order.Ordered}
-                                        onChange={(e) => handleOrderedChange(index, { target: { value: e.target.checked } }, "Ordered")}
-                                    />
-                                </div>
-                                <div className="col border-column">
-                                    <input
-                                        type="checkbox"
-                                        className="form-check-input"
-                                        checked={order.Received}
-                                        onChange={(e) => handleChange(index, { target: { value: e.target.checked } }, "Received")}
-                                    />
-                                </div>
-                            </>
-                        )}
-                    </div>
-                ))}
+                                <th><div className='cell-content medium'>Payee</div></th>
+                                <th><div className='cell-content medium'>Invoice Number</div></th>
+                                <th><div className='cell-content small'>Carted</div></th>
+                                <th><div className='cell-content small'>Ordered</div></th>
+                                <th><div className='cell-content small'>Received</div></th>
+                            </>)}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {orders.map((order, index) => (
+                            <tr key={index}>
+                                <td><div className='cell-content'>{order.Description}</div></td>
+                                {localStorage.getItem('role') === 'user' && (
+                                    <td>
+                                        <div className='cell-content medium'>
+                                            {order.Received ? (
+                                                Received
+                                            ) : order.Ordered ? (
+                                                Ordered
+                                            ) : order.Carted ? (
+                                                Carted
+                                            ) : (
+                                                <></>
+                                            )}
+                                        </div>
+                                    </td>
+                                )}
+                                <td><div className='cell-content medium'>{order.Priority}</div></td>
+                                <td><div className='cell-content medium'>{order.Purpose}</div></td>
+                                <td><div className='cell-content medium'>{order.Vendor}</div></td>
+                                <td><div className='cell-content medium'>{order.Part_Num}</div></td>
+                                <td><div className='cell-content small'>{currency.format(order.Unit_Price)}</div></td>
+                                <td><div className='cell-content small'>{order.Quantity}</div></td>
+                                <td><div className='cell-content large'><a href={order.Link} target="_blank" rel="noopener noreferrer">{order.Link}</a></div></td>                                <td><div className='cell-content medium'>{order.Notes}</div></td>
+                                <td><div className='cell-content medium'>{order.Order_Date}</div></td>
+                                {localStorage.getItem('role') === 'admin' && (
+                                    <>
+                                        <td>
+                                            <div className='cell-content medium'>
+                                                <select className="form-select" value={order.Payee} onChange={(e) => handleChange(index, e, "Payee")}>
+                                                    <option value={null}>None</option>
+                                                    <option value="McQ">McQuaid</option>
+                                                    <option value="RCR">RCR</option>
+                                                    <option value="Donation">Donation</option>
+                                                    <option value="Voucher">Voucher</option>
+                                                </select>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div className='cell-content medium'>
+                                                <input
+                                                    type="text"
+                                                    className="form-control"
+                                                    value={order.Invoice_Num}
+                                                    onChange={(e) => handleChange(index, e, "Invoice_Num")}
+                                                />
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div className='cell-content small'>
+                                                <input
+                                                    type="checkbox"
+                                                    className="form-check-input"
+                                                    checked={order.Carted}
+                                                    onChange={(e) => handleChange(index, { target: { value: e.target.checked } }, "Carted")}
+                                                />
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div className='cell-content small'>
+                                                <input
+                                                    type="checkbox"
+                                                    className="form-check-input"
+                                                    checked={order.Ordered}
+                                                    onChange={(e) => handleOrderedChange(index, { target: { value: e.target.checked } }, "Ordered")}
+                                                />
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div className='cell-content small'>
+                                                <input
+                                                    type="checkbox"
+                                                    className="form-check-input"
+                                                    checked={order.Received}
+                                                    onChange={(e) => handleChange(index, { target: { value: e.target.checked } }, "Received")}
+                                                />
+                                            </div>
+                                        </td>
+                                    </>
+                                )}
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
             </div>
         </div>
     );

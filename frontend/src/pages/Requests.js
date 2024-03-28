@@ -16,6 +16,11 @@ const Requests = () => {
     const decoded = jwtDecode(token);
     const role = decoded.role;
 
+    const currency = new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'USD',
+    });
+
     useEffect(() => {
         const fetchRequests = async () => {
             try {
@@ -71,74 +76,54 @@ const Requests = () => {
             <div>
                 {message && <p>{message}</p>}
             </div>
-
             <div className='table-container'>
-
-                <div className="row">
-                    <div className="col">
-                        <strong>Description</strong>
-                    </div>
-                    <div className="col">
-                        <strong>Vendor</strong>
-                    </div>
-                    <div className="col">
-                        <strong>Part Number</strong>
-                    </div>
-                    <div className="col">
-                        <strong>Unit Price</strong>
-                    </div>
-                    <div className="col">
-                        <strong>Quantity</strong>
-                    </div>
-                    <div className="col">
-                        <strong>Link</strong>
-                    </div>
-                    <div className="col">
-                        <strong>Notes</strong>
-                    </div>
-                    <div className="col">
-                        <strong>Status</strong>
-                    </div>
-                    <div className="col">
-                        <strong>Purpose</strong>
-                    </div>
-                    <div className="col">
-                        <strong>Priority</strong>
-                    </div>
-                    <div className="col">
-                        <strong>Requester</strong>
-                    </div>
-                    {localStorage.getItem('role') === 'admin' && (
-                        <div className="col">
-                            <strong>Actions</strong>
-                        </div>
-                    )}
-                </div>
-                {requests.map((request, index) => (
-                    <div className="row border-row" key={index}>
-                        <div className="col border-column">{request.Description}</div>
-                        <div className="col border-column">{request.Vendor}</div>
-                        <div className="col border-column">{request.Part_Num}</div>
-                        <div className="col border-column">{request.Unit_Price}</div>
-                        <div className="col border-column">{request.Quantity}</div>
-                        <div className="col border-column">{request.Link}</div>
-                        <div className="col border-column">{request.Notes}</div>
-                        <div className="col border-column">{request.Purpose}</div>
-                        <div className="col border-column">{request.Priority}</div>
-                        <div className="col border-column">{request.Requester}</div>
-                        <div className="col border-column">{request.Status === null ? 'Awaiting Decision...' : request.Status ? 'Accepted' : 'Denied'}</div>
-                        {localStorage.getItem('role') === 'admin' && (
-                            <div className="col border-column">
-                                {request.Status === null && (
-                                    <>
-                                        <button className="btn btn-primary" onClick={() => { acceptRequest(request.ID); }}>Accept</button>
-                                        <button className="btn btn-danger" onClick={() => { denyRequest(request.ID); }}>Deny</button>
-                                    </>
+                <table>
+                    <thead>
+                        <tr>
+                            <th><div className='cell-content medium'>Description</div></th>
+                            <th><div className='cell-content small'>Status</div></th>
+                            <th><div className='cell-content medium'>Priority</div></th>
+                            <th><div className='cell-content medium'>Purpose</div></th>
+                            <th><div className='cell-content medium'>Vendor</div></th>
+                            <th><div className='cell-content medium'>Part Number</div></th>
+                            <th><div className='cell-content small'>Unit Price</div></th>
+                            <th><div className='cell-content small'>Quantity</div></th>
+                            <th><div className='cell-content large'>Link</div></th>
+                            <th><div className='cell-content medium'>Notes</div></th>
+                            <th><div className='cell-content medium'>Requester</div></th>
+                            {localStorage.getItem('role') === 'admin' && (
+                                <th><div className='cell-content medium'>Actions</div></th>
+                            )}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {requests.map((request, index) => (
+                            <tr  key={index}>
+                                <td><div className='cell-content medium'>{request.Description}</div></td>
+                                <td><div className='cell-content small'>{request.Status === null ? 'Awaiting Decision...' : request.Status ? 'Accepted' : 'Denied'}</div></td>
+                                <td><div className='cell-content medium'>{request.Priority}</div></td>
+                                <td><div className='cell-content medium'>{request.Purpose}</div></td>
+                                <td><div className='cell-content medium'>{request.Vendor}</div></td>
+                                <td><div className='cell-content medium'>{request.Part_Num}</div></td>
+                                <td><div className='cell-content small'>{currency.format(request.Unit_Price)}</div></td>
+                                <td><div className='cell-content small'>{request.Quantity}</div></td>
+                                <td><div className='cell-content large'><a href={request.Link} target="_blank" rel="noopener noreferrer">{request.Link}</a></div></td>
+                                <td><div className='cell-content medium'>{request.Notes}</div></td>
+                                <td><div className='cell-content medium'>{request.Requester}</div></td>
+                                {localStorage.getItem('role') === 'admin' && (
+                                    <td><div className='cell-content medium'>
+                                        {request.Status === null && (
+                                            <>
+                                                <button className="btn btn-primary" onClick={() => { acceptRequest(request.ID); }}>Accept</button>
+                                                <button className="btn btn-danger" onClick={() => { denyRequest(request.ID); }}>Deny</button>
+                                            </>
+                                        )}
+                                    </div></td>
                                 )}
-                            </div>
-                        )}
-                    </div>
-                ))}
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
             </div>
         </div>
     );

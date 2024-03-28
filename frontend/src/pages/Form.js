@@ -43,7 +43,7 @@ const Form = () => {
     };
 
     return (
-        <div className="container-fluid" style={{padding: '0px'}}>
+        <div className="container-fluid">
             <div>
                 <Link to="/">
                     <button className="btn btn-primary">Home</button>
