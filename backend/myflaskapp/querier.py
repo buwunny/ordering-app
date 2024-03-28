@@ -44,8 +44,8 @@ def delete_request(id):
 
 # ORDERS FUNCTIONS
 def create_order(data):
-    query = "INSERT INTO Orders (Description, Vendor, Part_Num, Unit_Price, Quantity, Link, Notes) VALUES (%s, %s, %s, %s, %s, %s, %s)"
-    values = tuple(data[key] for key in ['Description', 'Vendor', 'Part_Num', 'Unit_Price', 'Quantity', 'Link', 'Notes'])
+    query = "INSERT INTO Orders (Description, Vendor, Part_Num, Unit_Price, Quantity, Link, Notes, Requester, Purpose, Priority) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
+    values = tuple(data[key] for key in ['Description', 'Vendor', 'Part_Num', 'Unit_Price', 'Quantity', 'Link', 'Notes', 'Requester', 'Purpose', 'Priority'])
     cursor.execute(query, values)
     cnx.commit()
 

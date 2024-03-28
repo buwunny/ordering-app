@@ -73,9 +73,6 @@ const Requests = () => {
             <Link to="/orders">
                 <button className="btn btn-primary">Orders</button>
             </Link>
-            <div>
-                {message && <p>{message}</p>}
-            </div>
             <div className='table-container'>
                 <table>
                     <thead>
@@ -124,6 +121,9 @@ const Requests = () => {
                         ))}
                     </tbody>
                 </table>
+            </div>
+            <div>
+                {message && <p>{message}</p>}
             </div>
         </div>
     );

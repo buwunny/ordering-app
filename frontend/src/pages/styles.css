@@ -42,7 +42,7 @@ label {
 .table-container {
     overflow: auto;
     width: 100%;
-    height: 90%;
+    height: 85%;
     /* padding-left: 15px; */
     /* padding-right: 15px; */
 }
@@ -59,8 +59,8 @@ th .cell-content, td .cell-content {
     overflow: auto;
     white-space: nowrap;
     text-overflow: ellipsis;
-    padding: 2px;
-
+    padding-left: 2px;
+    padding-right: 2px;
 }
 
 th .small, td .small {

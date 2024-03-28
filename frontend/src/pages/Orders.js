@@ -84,19 +84,6 @@ const Orders = () => {
                     <button className="btn btn-primary">Orders</button>
                 </Link>
             </div>
-            <div>
-                {changed && (
-                    <>
-                        <button className="btn btn-primary" onClick={saveChanges}>
-                            Save Changes
-                        </button>
-                        <button className="btn btn-primary" onClick={cancelChanges}>
-                            Cancel Changes
-                        </button>
-                    </>
-                )}
-                {message && <p>{message}</p>}
-            </div>
             <div className="table-container">
                 <table>
                     <thead>
@@ -130,11 +117,11 @@ const Orders = () => {
                                     <td>
                                         <div className='cell-content medium'>
                                             {order.Received ? (
-                                                Received
+                                                'Received'
                                             ) : order.Ordered ? (
-                                                Ordered
+                                                'Ordered'
                                             ) : order.Carted ? (
-                                                Carted
+                                                'Carted'
                                             ) : (
                                                 <></>
                                             )}
@@ -208,6 +195,19 @@ const Orders = () => {
                         ))}
                     </tbody>
                 </table>
+            </div>
+            <div>
+                {changed && (
+                    <>
+                        <button className="btn btn-primary" onClick={saveChanges}>
+                            Save Changes
+                        </button>
+                        <button className="btn btn-primary" onClick={cancelChanges}>
+                            Cancel Changes
+                        </button>
+                    </>
+                )}
+                {message && <p>{message}</p>}
             </div>
         </div>
     );
