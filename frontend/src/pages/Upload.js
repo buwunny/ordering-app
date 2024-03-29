@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import withAuth from '../hocs/withAuth';
 import axios from 'axios';
 import './styles.css';
@@ -47,22 +48,38 @@ function Upload() {
     };
 
     return (
-        <div className='container-fluid'>
-            <p>Upload CSV File</p>
-            <form onSubmit={handleSubmit}>
-                <div className="form-group">
-                    <label htmlFor="fileInput">Select File:</label>
-                </div>
-                <div className="form-group">
-                    <input type="file" className="form-control-file" id="fileInput" onChange={handleFileChange} accept=".csv" />
-                </div>
-                <div className="form-group">
-                    <label htmlFor="textInput">Requester:</label>
-                    <input type="text" className="form-control" id="textInput" value={textInput} onChange={handleTextChange} required/>
-                </div>
-                <button type="submit" className="btn btn-primary">Upload</button>
-            </form>
-            {message && <p>{message}</p>}
+        <div className="container-fluid">
+            <Link to="/">
+                <button className="btn btn-primary">Home</button>
+            </Link>
+            <Link to="/form">
+                <button className="btn btn-primary">Form</button>
+            </Link>
+            <Link to="/requests">
+                <button className="btn btn-primary">Requests</button>
+            </Link>
+            <Link to="/orders">
+                <button className="btn btn-primary">Orders</button>
+            </Link>
+            <Link to="/upload">
+                <button className="btn btn-primary">Upload</button>
+            </Link>
+            <div className='container-fluid container-center'>
+                <form onSubmit={handleSubmit}>
+                    <div className="form-group">
+                        <label htmlFor="fileInput">Select CSV File:</label>
+                    </div>
+                    <div className="form-group">
+                        <input type="file" className="form-control-file" id="fileInput" onChange={handleFileChange} accept=".csv" />
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="textInput">Your Name:</label>
+                        <input type="text" className="form-control" id="textInput" value={textInput} onChange={handleTextChange} required/>
+                    </div>
+                    <button type="submit" className="btn btn-primary">Upload</button>
+                </form>
+                {message && <p>{message}</p>}
+            </div>
         </div>
     );
 }

@@ -57,8 +57,11 @@ const Form = () => {
                 <Link to="/orders">
                     <button className="btn btn-primary">Orders</button>
                 </Link>
+                <Link to="/upload">
+                    <button className="btn btn-primary">Upload</button>
+                </Link>
             </div>
-            <div className="container-fluid" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', }}>
+            <div className="container-fluid container-center">
                 <div>
                     <form onSubmit={handleSubmit} style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px', justifyContent: 'center' }}>
                         <div className="form-group">

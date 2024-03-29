@@ -83,6 +83,9 @@ const Orders = () => {
                 <Link to="/orders">
                     <button className="btn btn-primary">Orders</button>
                 </Link>
+                <Link to="/upload">
+                    <button className="btn btn-primary">Upload</button>
+                </Link>
             </div>
             <div className="table-container">
                 <table>
@@ -94,10 +97,10 @@ const Orders = () => {
                             <th><div className='cell-content medium'>Purpose</div></th>
                             <th><div className='cell-content medium'>Vendor</div></th>
                             <th><div className='cell-content medium'>Part Number</div></th>
-                            <th><div className='cell-content small'>Unit Price</div></th>
+                            <th><div className='cell-content small'>Price</div></th>
                             <th><div className='cell-content small'>Quantity</div></th>
                             <th><div className='cell-content large'>Link</div></th>
-                            <th><div className='cell-content medium'>Notes</div></th>
+                            <th><div className='cell-content large'>Notes</div></th>
                             <th><div className='cell-content medium'>Order Date</div></th>
                             {localStorage.getItem('role') === 'admin' && (
                             <>
@@ -135,7 +138,7 @@ const Orders = () => {
                                 <td><div className='cell-content small'>{currency.format(order.Unit_Price)}</div></td>
                                 <td><div className='cell-content small'>{order.Quantity}</div></td>
                                 <td><div className='cell-content large'><a href={order.Link} target="_blank" rel="noopener noreferrer">{order.Link}</a></div></td>                                <td><div className='cell-content medium'>{order.Notes}</div></td>
-                                <td><div className='cell-content medium'>{order.Order_Date}</div></td>
+                                <td><div className='cell-content large'>{order.Order_Date}</div></td>
                                 {localStorage.getItem('role') === 'admin' && (
                                     <>
                                         <td>

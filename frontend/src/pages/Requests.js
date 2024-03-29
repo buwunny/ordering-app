@@ -73,6 +73,9 @@ const Requests = () => {
             <Link to="/orders">
                 <button className="btn btn-primary">Orders</button>
             </Link>
+            <Link to="/upload">
+                <button className="btn btn-primary">Upload</button>
+            </Link>
             <div className='table-container'>
                 <table>
                     <thead>
@@ -83,10 +86,10 @@ const Requests = () => {
                             <th><div className='cell-content medium'>Purpose</div></th>
                             <th><div className='cell-content medium'>Vendor</div></th>
                             <th><div className='cell-content medium'>Part Number</div></th>
-                            <th><div className='cell-content small'>Unit Price</div></th>
+                            <th><div className='cell-content small'>Price</div></th>
                             <th><div className='cell-content small'>Quantity</div></th>
                             <th><div className='cell-content large'>Link</div></th>
-                            <th><div className='cell-content medium'>Notes</div></th>
+                            <th><div className='cell-content large'>Notes</div></th>
                             <th><div className='cell-content medium'>Requester</div></th>
                             {localStorage.getItem('role') === 'admin' && (
                                 <th><div className='cell-content medium'>Actions</div></th>
@@ -105,7 +108,7 @@ const Requests = () => {
                                 <td><div className='cell-content small'>{currency.format(request.Unit_Price)}</div></td>
                                 <td><div className='cell-content small'>{request.Quantity}</div></td>
                                 <td><div className='cell-content large'><a href={request.Link} target="_blank" rel="noopener noreferrer">{request.Link}</a></div></td>
-                                <td><div className='cell-content medium'>{request.Notes}</div></td>
+                                <td><div className='cell-content large'>{request.Notes}</div></td>
                                 <td><div className='cell-content medium'>{request.Requester}</div></td>
                                 {localStorage.getItem('role') === 'admin' && (
                                     <td><div className='cell-content medium'>

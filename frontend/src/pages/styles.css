@@ -16,6 +16,11 @@ p {
     color: white;
 }
 
+div h1 {
+    color: white;
+
+}
+
 label {
     color: white;
 }
@@ -25,6 +30,13 @@ label {
     height: 100vh !important;
     padding-left: 0 !important;
     padding-right: 0 !important;
+}
+
+.container-center {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 .container-fluid .btn {
@@ -37,6 +49,8 @@ label {
     background-color: #FAB532;
     border: 1px solid black;
     color: white;
+    overflow: hidden;
+    width: 300px;
 }
 
 .table-container {
