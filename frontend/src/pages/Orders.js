@@ -92,8 +92,8 @@ const Orders = () => {
                     <thead>
                         <tr>
                             <th><div className='cell-content medium'>Description</div></th>
-                            {localStorage.getItem('role') === 'user' && (<th><div className='cell-content medium'>Status</div></th>)}
-                            <th><div className='cell-content medium'>Priority</div></th>
+                            {localStorage.getItem('role') === 'user' && (<th><div className='cell-content small'>Status</div></th>)}
+                            <th><div className='cell-content small'>Priority</div></th>
                             <th><div className='cell-content medium'>Purpose</div></th>
                             <th><div className='cell-content medium'>Vendor</div></th>
                             <th><div className='cell-content medium'>Part Number</div></th>
@@ -105,7 +105,7 @@ const Orders = () => {
                             {localStorage.getItem('role') === 'admin' && (
                             <>
                                 <th><div className='cell-content medium'>Payee</div></th>
-                                <th><div className='cell-content medium'>Invoice Number</div></th>
+                                <th><div className='cell-content small'>Invoice Number</div></th>
                                 <th><div className='cell-content small'>Carted</div></th>
                                 <th><div className='cell-content small'>Ordered</div></th>
                                 <th><div className='cell-content small'>Received</div></th>
@@ -118,7 +118,7 @@ const Orders = () => {
                                 <td><div className='cell-content'>{order.Description}</div></td>
                                 {localStorage.getItem('role') === 'user' && (
                                     <td>
-                                        <div className='cell-content medium'>
+                                        <div className='cell-content small'>
                                             {order.Received ? (
                                                 'Received'
                                             ) : order.Ordered ? (
@@ -131,14 +131,14 @@ const Orders = () => {
                                         </div>
                                     </td>
                                 )}
-                                <td><div className='cell-content medium'>{order.Priority}</div></td>
+                                <td><div className='cell-content small'>{order.Priority}</div></td>
                                 <td><div className='cell-content medium'>{order.Purpose}</div></td>
                                 <td><div className='cell-content medium'>{order.Vendor}</div></td>
                                 <td><div className='cell-content medium'>{order.Part_Num}</div></td>
                                 <td><div className='cell-content small'>{currency.format(order.Unit_Price)}</div></td>
                                 <td><div className='cell-content small'>{order.Quantity}</div></td>
                                 <td><div className='cell-content large'><a href={order.Link} target="_blank" rel="noopener noreferrer">{order.Link}</a></div></td>                                <td><div className='cell-content medium'>{order.Notes}</div></td>
-                                <td><div className='cell-content large'>{order.Order_Date}</div></td>
+                                <td><div className='cell-content medium'>{order.Order_Date}</div></td>
                                 {localStorage.getItem('role') === 'admin' && (
                                     <>
                                         <td>
@@ -153,7 +153,7 @@ const Orders = () => {
                                             </div>
                                         </td>
                                         <td>
-                                            <div className='cell-content medium'>
+                                            <div className='cell-content small'>
                                                 <input
                                                     type="text"
                                                     className="form-control"

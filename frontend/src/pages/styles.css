@@ -57,8 +57,6 @@ label {
     overflow: auto;
     width: 100%;
     height: 85%;
-    /* padding-left: 15px; */
-    /* padding-right: 15px; */
 }
 
 th, td {
@@ -67,7 +65,15 @@ th, td {
     color: white;
 }
 
-th .cell-content, td .cell-content {
+th .cell-content {
+    height: 60px;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    white-space: normal;
+}
+
+td .cell-content {
     height: 40px;
     font-size: 16px; 
     overflow: auto;

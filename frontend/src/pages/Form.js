@@ -31,6 +31,9 @@ const Form = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        if (formData.purpose === 'Other') {
+            formData.purpose = formData.otherPurpose;
+        }
         try {
             const response = await axios.post('/api/form', formData, { headers });
             setFormData(initialFormData);
@@ -92,7 +95,7 @@ const Form = () => {
                             </select>
                         </div>
 
-                        {/* {formData.purpose === "Other" && (
+                        {formData.purpose === "Other" && (
                             <div className="form-group" style={{ gridColumn: 'span 2' }}>
                                 <label htmlFor="otherPurpose">Other Purpose:</label>
                                 <input
@@ -105,7 +108,7 @@ const Form = () => {
                                     required
                                 />
                             </div>
-                        )} */}
+                        )}
 
                         
                         <div className="form-group">

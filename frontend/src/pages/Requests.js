@@ -82,7 +82,7 @@ const Requests = () => {
                         <tr>
                             <th><div className='cell-content medium'>Description</div></th>
                             <th><div className='cell-content small'>Status</div></th>
-                            <th><div className='cell-content medium'>Priority</div></th>
+                            <th><div className='cell-content small'>Priority</div></th>
                             <th><div className='cell-content medium'>Purpose</div></th>
                             <th><div className='cell-content medium'>Vendor</div></th>
                             <th><div className='cell-content medium'>Part Number</div></th>
@@ -101,7 +101,7 @@ const Requests = () => {
                             <tr  key={index}>
                                 <td><div className='cell-content medium'>{request.Description}</div></td>
                                 <td><div className='cell-content small'>{request.Status === null ? 'Awaiting Decision...' : request.Status ? 'Accepted' : 'Denied'}</div></td>
-                                <td><div className='cell-content medium'>{request.Priority}</div></td>
+                                <td><div className='cell-content small'>{request.Priority}</div></td>
                                 <td><div className='cell-content medium'>{request.Purpose}</div></td>
                                 <td><div className='cell-content medium'>{request.Vendor}</div></td>
                                 <td><div className='cell-content medium'>{request.Part_Num}</div></td>
