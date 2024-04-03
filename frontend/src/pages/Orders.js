@@ -10,9 +10,12 @@ const Orders = () => {
     const [message, setMessage] = useState('');
     const [changed, setChanged] = useState(false);
 
+    const token = localStorage.getItem('token');
     const headers = {
-        Authorization: `Bearer ${localStorage.getItem('token')}`
-    };
+        Authorization: `Bearer ${token}`
+    }
+    const decoded = jwtDecode(token);
+    const role = decoded.role;
 
     const currency = new Intl.NumberFormat('en-US', {
         style: 'currency',
@@ -92,7 +95,7 @@ const Orders = () => {
                     <thead>
                         <tr>
                             <th><div className='cell-content medium'>Description</div></th>
-                            {localStorage.getItem('role') === 'user' && (<th><div className='cell-content small'>Status</div></th>)}
+                            {role === 'user' && (<th><div className='cell-content small'>Status</div></th>)}
                             <th><div className='cell-content small'>Priority</div></th>
                             <th><div className='cell-content medium'>Purpose</div></th>
                             <th><div className='cell-content medium'>Vendor</div></th>
@@ -102,7 +105,7 @@ const Orders = () => {
                             <th><div className='cell-content large'>Link</div></th>
                             <th><div className='cell-content large'>Notes</div></th>
                             <th><div className='cell-content medium'>Order Date</div></th>
-                            {localStorage.getItem('role') === 'admin' && (
+                            {role === 'admin' && (
                             <>
                                 <th><div className='cell-content medium'>Payee</div></th>
                                 <th><div className='cell-content small'>Invoice Number</div></th>
@@ -116,7 +119,7 @@ const Orders = () => {
                         {orders.map((order, index) => (
                             <tr key={index}>
                                 <td><div className='cell-content'>{order.Description}</div></td>
-                                {localStorage.getItem('role') === 'user' && (
+                                {role === 'user' && (
                                     <td>
                                         <div className='cell-content small'>
                                             {order.Received ? (
@@ -139,7 +142,7 @@ const Orders = () => {
                                 <td><div className='cell-content small'>{order.Quantity}</div></td>
                                 <td><div className='cell-content large'><a href={order.Link} target="_blank" rel="noopener noreferrer">{order.Link}</a></div></td>                                <td><div className='cell-content medium'>{order.Notes}</div></td>
                                 <td><div className='cell-content medium'>{order.Order_Date}</div></td>
-                                {localStorage.getItem('role') === 'admin' && (
+                                {role === 'admin' && (
                                     <>
                                         <td>
                                             <div className='cell-content medium'>

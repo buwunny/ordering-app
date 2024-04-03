@@ -91,7 +91,7 @@ const Requests = () => {
                             <th><div className='cell-content large'>Link</div></th>
                             <th><div className='cell-content large'>Notes</div></th>
                             <th><div className='cell-content medium'>Requester</div></th>
-                            {localStorage.getItem('role') === 'admin' && (
+                            {role === 'admin' && (
                                 <th><div className='cell-content medium'>Actions</div></th>
                             )}
                         </tr>
@@ -110,7 +110,7 @@ const Requests = () => {
                                 <td><div className='cell-content large'><a href={request.Link} target="_blank" rel="noopener noreferrer">{request.Link}</a></div></td>
                                 <td><div className='cell-content large'>{request.Notes}</div></td>
                                 <td><div className='cell-content medium'>{request.Requester}</div></td>
-                                {localStorage.getItem('role') === 'admin' && (
+                                {role === 'admin' && (
                                     <td><div className='cell-content medium'>
                                         {request.Status === null && (
                                             <>
