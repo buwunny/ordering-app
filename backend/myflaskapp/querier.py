@@ -34,13 +34,14 @@ def update_request_status(id, status):
     cursor.execute(query, (status, id))
     cnx.commit()
 
-def request_to_order(id):
-    create_order(read_request(id))
 
 def delete_request(id):
     query = "DELETE FROM Requests WHERE ID = %s"
     cursor.execute(query, (id,))
     cnx.commit()
+
+def request_to_order(id):
+    create_order(read_request(id))
 
 # ORDERS FUNCTIONS
 def create_order(data):
@@ -52,6 +53,13 @@ def create_order(data):
 def read_orders():
     dictCursor.execute("SELECT * FROM Orders")
     results = dictCursor.fetchall()
+    return results
+
+def read_filtered_orders(field, value):
+    query = "SELECT * FROM Orders WHERE `{}` = %s".format(field)
+    dictCursor.execute(query, (value,))
+    results = dictCursor.fetchall()
+    print(results)
     return results
 
 def update_order(id, data):

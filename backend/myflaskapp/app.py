@@ -103,6 +103,18 @@ def update_order(id):
         return jsonify({'status': 'success'}), 200
     else:
         return jsonify({'status': 'error', 'message': 'Unauthorized'}), 401
+    
+@app.route('/api/orders/filter', methods=['GET'])
+@jwt_required()
+def get_filter_orders():
+    field = request.args.get('field')
+    value = request.args.get('value')
+    if (field == 'Status'):
+        field = value
+        value = 1
+    
+    print(field, value)
+    return jsonify(querier.read_filtered_orders(field, value))
 
 if __name__ == '__main__':
     app.run(debug=True)

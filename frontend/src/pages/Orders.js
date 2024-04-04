@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import withAuth from '../hocs/withAuth';
 import axios from 'axios';
+import { jwtDecode } from 'jwt-decode';
 import './styles.css';
 
 const Orders = () => {
@@ -9,6 +10,7 @@ const Orders = () => {
     const [originalOrders, setOriginalOrders] = useState([]);
     const [message, setMessage] = useState('');
     const [changed, setChanged] = useState(false);
+    const [filter, setFilter] = useState('');
 
     const token = localStorage.getItem('token');
     const headers = {
@@ -21,20 +23,23 @@ const Orders = () => {
         style: 'currency',
         currency: 'USD',
     });
+    async function fetchOrders() {
+        try {
+            const response = await axios.get('/api/orders', { headers });
+            console.log(response.data); // Print response to console
+            setOriginalOrders(response.data);
+            setOrders(response.data); // Make requests a 2D array
+        } catch (error) {
+            setMessage('An error occurred');
+        }
+    }
 
     useEffect(() => {
-        const fetchRequests = async () => {
-            try {
-                const response = await axios.get('/api/orders', { headers });
-                console.log(response.data); // Print response to console
-                setOriginalOrders(response.data);
-                setOrders(response.data); // Make requests a 2D array
-            } catch (error) {
-                setMessage('An error occurred');
-            }
-        };
-        fetchRequests();
-    }, []);
+        fetchOrders();
+        if (filter === '') {
+            fetchOrders();
+        }
+    }, [filter]);
 
     async function handleChange(index, event, field) {
         const newOrders = [...orders];
@@ -52,6 +57,21 @@ const Orders = () => {
         handleChange(index, event, field);
     }
 
+    async function handleFilter(field, value) {
+        try {
+            let response;
+            if (value === '') {
+                response = await axios.get('/api/orders', { headers });
+            } else {
+                response = await axios.get(`/api/orders/filter?field=${field}&value=${value}`, { headers });
+            }
+                console.log(response.data);
+            setOrders(response.data);
+        } catch (error) {
+            console.error('Error fetching data: ', error);
+        }
+    }
+    
     async function saveChanges() {
         try {
             for (let i = 0; i < orders.length; i++) {
@@ -89,6 +109,60 @@ const Orders = () => {
                 <Link to="/upload">
                     <button className="btn btn-primary">Upload</button>
                 </Link>
+            </div>
+            <div>
+                <p>Filter:</p>
+                <select className="form-select" onChange={(e) => setFilter(e.target.value)}>
+                    <option value="">None</option>
+                    <option value="Status">Status</option>
+                    <option value="Priority">Priority</option>
+                    <option value="Purpose">Purpose</option>
+                    <option value="Vendor">Vendor</option>
+                    {role === 'admin' && (
+                        <option value="Payee">Payee</option>
+                    )}
+                </select>
+                
+                {filter === 'Status' && (
+                    <select className="form-select" onChange={(e) => handleFilter('Status', e.target.value)}>
+                        <option value="">All</option>
+                        <option value="Carted">Carted</option>
+                        <option value="Ordered">Ordered</option>
+                        <option value="Received">Received</option>
+                    </select>
+                )}
+                {filter === 'Priority' && (
+                    <select className="form-select" onChange={(e) => handleFilter('Priority', e.target.value)}>
+                        <option value="">All</option>
+                        <option value="Low">Low</option>
+                        <option value="Medium">Medium</option>
+                        <option value="High">High</option>
+                    </select>
+                )}
+                {filter === 'Purpose' && (
+                    <select className="form-select" onChange={(e) => handleFilter('Purpose', e.target.value)}>
+                        <option value="">All</option>
+                        <option value="Robot Parts">Robot Parts</option>
+                        <option value="Tools">Tools</option>
+                        <option value="Other">Other</option>
+                    </select>
+                )}
+                {filter === 'Vendor' && (
+                    <select className="form-select" onChange={(e) => handleFilter('Vendor', e.target.value)}>
+                        <option value="">All</option>
+                        <option value=""></option>
+                    </select>
+                )}
+                {role === 'admin' && filter === 'Payee' && (
+                    <select className="form-select" onChange={(e) => handleFilter('Payee', e.target.value)}>
+                        <option value="">All</option>
+                        <option value={null}>None</option>
+                        <option value="McQ">McQuaid</option>
+                        <option value="RCR">RCR</option>
+                        <option value="Donation">Donation</option>
+                        <option value="Voucher">Voucher</option>
+                    </select>
+                )}
             </div>
             <div className="table-container">
                 <table>
