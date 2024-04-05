@@ -34,6 +34,9 @@ const Form = () => {
         if (formData.purpose === 'Other') {
             formData.purpose = formData.otherPurpose;
         }
+        if (formData.vendor === 'Other') {
+            formData.vendor = formData.otherVendor;
+        }
         try {
             const response = await axios.post('/api/form', formData, { headers });
             setFormData(initialFormData);
@@ -44,6 +47,30 @@ const Form = () => {
             console.log(error);
         }
     };
+
+    const vendors = [
+        "",
+        "Amazon",
+        "Andy Mark",
+        "Automation Direct",
+        "Bimba",
+        "Bolt Depot",
+        "CTRE",
+        "Del City",
+        "Digikey",
+        "Ferrules Direct",
+        "Home Depot",
+        "Local Vendor",
+        "McMaster",
+        "Powerx",
+        "REV Robotics",
+        "Robo Promo",
+        "SDS",
+        "Thrifty Bot",
+        "VEX Robotics",
+        "Vbelt Guys",
+        "WCP"
+    ];
 
     return (
         <div className="container-fluid">
@@ -109,20 +136,6 @@ const Form = () => {
                                 />
                             </div>
                         )}
-
-                        
-                        <div className="form-group">
-                            <label htmlFor="vendor">Vendor:</label>
-                            <input
-                                type="text"
-                                className="form-control"
-                                id="vendor"
-                                name="vendor"
-                                value={formData.vendor}
-                                onChange={handleChange}
-                                required
-                            />
-                        </div>
                         <div className="form-group">
                             <label htmlFor="partNumber">Part Number:</label>
                             <input
@@ -134,6 +147,38 @@ const Form = () => {
                                 onChange={handleChange}
                             />
                         </div>
+                        <div className="form-group">
+                            <label htmlFor="vendor">Vendor:</label>
+                            <select 
+                                className="form-select"
+                                id="vendor"
+                                name="vendor"
+                                value={formData.vendor}
+                                onChange={handleChange}
+                                required
+                            >
+                                {vendors.map((vendor) => (
+                                    <option key={vendor} value={vendor}>{vendor}</option>
+                                ))}
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+
+                        {formData.vendor === "Other" && (
+                            <div className="form-group" style={{ gridColumn: 'span 2' }}>
+                                <label htmlFor="otherVendor">Other Vendor:</label>
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    id="otherVendor"
+                                    name="otherVendor"
+                                    value={formData.otherVendor}
+                                    onChange={handleChange}
+                                    required
+                                />
+                            </div>
+                        )}
+
                         <div className="form-group">
                             <label htmlFor="quantity">Quantity:</label>
                             <input

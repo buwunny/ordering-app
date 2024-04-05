@@ -32,7 +32,6 @@ def csv_to_db(file, requester):
     
     reader = csv.DictReader(csv_file)
     print(requester)
-    print('j.')
     for row in reader:
         querier.create_request({
             'description': row['Description'],

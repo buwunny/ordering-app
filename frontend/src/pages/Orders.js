@@ -24,6 +24,32 @@ const Orders = () => {
         style: 'currency',
         currency: 'USD',
     });
+
+
+    const vendors = [
+        "",
+        "Amazon",
+        "Andy Mark",
+        "Automation Direct",
+        "Bimba",
+        "Bolt Depot",
+        "CTRE",
+        "Del City",
+        "Digikey",
+        "Ferrules Direct",
+        "Home Depot",
+        "Local Vendor",
+        "McMaster",
+        "Powerx",
+        "REV Robotics",
+        "Robo Promo",
+        "SDS",
+        "Thrifty Bot",
+        "VEX Robotics",
+        "Vbelt Guys",
+        "WCP"
+    ];
+
     async function fetchOrders() {
         try {
             const response = await axios.get('/api/orders', { headers });
@@ -152,7 +178,10 @@ const Orders = () => {
                 {filter === 'Vendor' && (
                     <select className="form-select" onChange={(e) => handleFilter('Vendor', e.target.value)}>
                         <option value="">All</option>
-                        <option value=""></option>
+                        {vendors.map((vendor, index) => (
+                            <option key={index} value={vendor}>{vendor}</option>
+                        ))}
+                        <option value="Other">Other</option>
                     </select>
                 )}
                 {role === 'admin' && filter === 'Payee' && (
