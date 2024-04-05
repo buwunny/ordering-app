@@ -29,7 +29,7 @@ const Requests = () => {
                 console.log(response.data); // Print response to console
             } catch (error) {
                 setMessage('An error occurred');
-                console.log(response.data);
+                console.log(error.response.data);
             }
         };
         fetchRequests();
@@ -43,7 +43,7 @@ const Requests = () => {
             setRequests(requests.map(request => request.ID === requestId ? { ...request, Status: true } : request));
         } catch (error) {
             setMessage('An error occurred');
-            console.log(error);
+            console.log(error.response.data);
         }
     };
 
@@ -55,7 +55,7 @@ const Requests = () => {
             setRequests(requests.map(request => request.ID === requestId ? { ...request, Status: false } : request));
         } catch (error) {
             setMessage('An error occurred');
-            console.log(error);
+            console.log(error.response.data);
         }
     };
 

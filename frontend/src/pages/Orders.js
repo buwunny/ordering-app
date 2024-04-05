@@ -11,6 +11,7 @@ const Orders = () => {
     const [message, setMessage] = useState('');
     const [changed, setChanged] = useState(false);
     const [filter, setFilter] = useState('');
+    const [filterChanged, setFilterChanged] = useState(false);
 
     const token = localStorage.getItem('token');
     const headers = {
@@ -36,7 +37,7 @@ const Orders = () => {
 
     useEffect(() => {
         fetchOrders();
-        if (filter === '') {
+        if (filterChanged && filter === '') {
             fetchOrders();
         }
     }, [filter]);
@@ -58,8 +59,9 @@ const Orders = () => {
     }
 
     async function handleFilter(field, value) {
+        setFilterChanged(true)
+        let response;
         try {
-            let response;
             if (value === '') {
                 response = await axios.get('/api/orders', { headers });
             } else {

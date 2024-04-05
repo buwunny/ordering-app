@@ -59,7 +59,6 @@ def read_filtered_orders(field, value):
     query = "SELECT * FROM Orders WHERE `{}` = %s".format(field)
     dictCursor.execute(query, (value,))
     results = dictCursor.fetchall()
-    print(results)
     return results
 
 def update_order(id, data):
