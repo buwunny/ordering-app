@@ -55,9 +55,15 @@ def read_orders():
     results = dictCursor.fetchall()
     return results
 
-def read_filtered_orders(field, value):
-    query = "SELECT * FROM Orders WHERE `{}` = %s".format(field)
-    dictCursor.execute(query, (value,))
+def read_filtered_orders(field, value, other=False):
+    if other:
+        values = read_vendors() if field == 'Vendor' else read_purposes()
+        placeholders = ', '.join('%s' for _ in values)
+        query = "SELECT * FROM Orders WHERE `{}` NOT IN ({})".format(field, placeholders)
+        dictCursor.execute(query, values)
+    else:
+        query = "SELECT * FROM Orders WHERE `{}` = %s".format(field)
+        dictCursor.execute(query, (value,))
     results = dictCursor.fetchall()
     return results
 
@@ -70,3 +76,15 @@ def update_order(id, data):
     values = (data['Description'], data['Notes'], data['Order_Date'], data['Payee'], data['Invoice_Num'], data['Carted'], data['Ordered'], data['Received'], id)
     cursor.execute(query, values)
     cnx.commit()
+
+# OTHER FUNCTIONS
+def read_vendors():
+    cursor.execute("SELECT Name FROM Vendors")
+    results = cursor.fetchall()
+    results = [row[0] for row in results]
+    return results
+def read_purposes():
+    cursor.execute("SELECT Name FROM Purposes")
+    results = cursor.fetchall()
+    results = [row[0] for row in results]
+    return results
