@@ -46,7 +46,7 @@ def create_request(data):
 def read_requests():
     dictCursor.execute("SELECT * FROM Requests")
     results = dictCursor.fetchall()
-    return results
+    return results[::-1]
 
 def read_request(id):  
     query = "SELECT * FROM Requests WHERE ID = %s"
@@ -78,7 +78,7 @@ def create_order(data):
 def read_orders():
     dictCursor.execute("SELECT * FROM Orders")
     results = dictCursor.fetchall()
-    return results
+    return results[::-1]
 
 def read_filtered_orders(field, value, other=False):
     if other:
