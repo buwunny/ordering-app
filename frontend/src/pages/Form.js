@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import withAuth from '../hocs/withAuth';
@@ -7,7 +7,7 @@ import './styles.css'
 const Form = () => {
     const initialFormData = {
         description: '',
-        purpose: 'Robot Parts',
+        purpose: '',
         vendor: '',
         partNumber: '',
         quantity: '',
@@ -20,6 +20,9 @@ const Form = () => {
 
     const [formData, setFormData] = useState(initialFormData);
     const [message, setMessage] = useState('');
+
+    const [vendors, setVendors] = useState([]);
+    const [purposes, setPurposes] = useState([]);
 
     const headers = {
         Authorization: `Bearer ${localStorage.getItem('token')}`
@@ -48,29 +51,34 @@ const Form = () => {
         }
     };
 
-    const vendors = [
-        "",
-        "Amazon",
-        "Andy Mark",
-        "Automation Direct",
-        "Bimba",
-        "Bolt Depot",
-        "CTRE",
-        "Del City",
-        "Digikey",
-        "Ferrules Direct",
-        "Home Depot",
-        "Local Vendor",
-        "McMaster",
-        "Powerx",
-        "REV Robotics",
-        "Robo Promo",
-        "SDS",
-        "Thrifty Bot",
-        "VEX Robotics",
-        "Vbelt Guys",
-        "WCP"
-    ];
+
+    async function fetchVendors(){
+        try {
+            const response = await axios.get('/api/vendors', { headers });
+            console.log(response.data);
+            setVendors(response.data);
+        } catch (error) {
+            console.error('Error fetching data: ', error);
+            setMessage('An error occurred');
+        }
+    }
+
+    async function fetchPurposes(){
+        try {
+            const response = await axios.get('/api/purposes', { headers });
+            console.log(response.data);
+            setPurposes(response.data);
+        } catch (error) {
+            console.error('Error fetching data: ', error);
+            setMessage('An error occurred');
+        }
+    }
+
+    useEffect(() => {
+        fetchVendors();
+        fetchPurposes();
+    }, []);
+
 
     return (
         <div className="container-fluid">
@@ -116,8 +124,10 @@ const Form = () => {
                                 onChange={handleChange}
                                 required
                             >
-                                <option value="Robot Parts">Robot Parts</option>
-                                <option value="Tools">Tools</option>
+                                <option value=""></option>
+                                {purposes.map((purpose) => (
+                                    <option key={purpose} value={purpose}>{purpose}</option>
+                                ))}
                                 <option value="Other">Other</option>
                             </select>
                         </div>
@@ -157,6 +167,7 @@ const Form = () => {
                                 onChange={handleChange}
                                 required
                             >
+                                <option value=""></option>
                                 {vendors.map((vendor) => (
                                     <option key={vendor} value={vendor}>{vendor}</option>
                                 ))}

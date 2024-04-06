@@ -7,6 +7,8 @@ import './styles.css';
 
 const Orders = () => {
     const [orders, setOrders] = useState([]);
+    const [vendors, setVendors] = useState([]);
+    const [purposes, setPurposes] = useState([]);
     const [originalOrders, setOriginalOrders] = useState([]);
     const [message, setMessage] = useState('');
     const [changed, setChanged] = useState(false);
@@ -25,44 +27,45 @@ const Orders = () => {
         currency: 'USD',
     });
 
-
-    const vendors = [
-        "",
-        "Amazon",
-        "Andy Mark",
-        "Automation Direct",
-        "Bimba",
-        "Bolt Depot",
-        "CTRE",
-        "Del City",
-        "Digikey",
-        "Ferrules Direct",
-        "Home Depot",
-        "Local Vendor",
-        "McMaster",
-        "Powerx",
-        "REV Robotics",
-        "Robo Promo",
-        "SDS",
-        "Thrifty Bot",
-        "VEX Robotics",
-        "Vbelt Guys",
-        "WCP"
-    ];
-
     async function fetchOrders() {
         try {
             const response = await axios.get('/api/orders', { headers });
             console.log(response.data); // Print response to console
             setOriginalOrders(response.data);
-            setOrders(response.data); // Make requests a 2D array
+            setOrders(response.data);
         } catch (error) {
+            console.error('Error fetching data: ', error);
+            setMessage('An error occurred');
+        }
+    }
+
+    async function fetchVendors(){
+        try {
+            const response = await axios.get('/api/vendors', { headers });
+            console.log(response.data);
+            setVendors(response.data);
+        } catch (error) {
+            console.error('Error fetching data: ', error);
+            setMessage('An error occurred');
+        }
+    }
+
+    async function fetchPurposes(){
+        try {
+            const response = await axios.get('/api/purposes', { headers });
+            console.log(response.data);
+            setPurposes(response.data);
+        } catch (error) {
+            console.error('Error fetching data: ', error);
             setMessage('An error occurred');
         }
     }
 
     useEffect(() => {
         fetchOrders();
+        fetchVendors();
+        fetchPurposes();
+
         if (filterChanged && filter === '') {
             fetchOrders();
         }
@@ -97,6 +100,7 @@ const Orders = () => {
             setOrders(response.data);
         } catch (error) {
             console.error('Error fetching data: ', error);
+            setMessage('An error occurred');
         }
     }
     
@@ -170,8 +174,9 @@ const Orders = () => {
                 {filter === 'Purpose' && (
                     <select className="form-select" onChange={(e) => handleFilter('Purpose', e.target.value)}>
                         <option value="">All</option>
-                        <option value="Robot Parts">Robot Parts</option>
-                        <option value="Tools">Tools</option>
+                        {purposes.map((purpose, index) => (
+                            <option key={index} value={purpose}>{purpose}</option>
+                        ))}
                         <option value="Other">Other</option>
                     </select>
                 )}

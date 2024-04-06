@@ -8,8 +8,33 @@ dictCursor = cnx.cursor(dictionary=True)
 cursor.execute("SELECT * FROM Requests")
 results = cursor.fetchall()
 
+vendors = [
+    "Amazon",
+    "Andy Mark",
+    "Automation Direct",
+    "Bimba",
+    "Bolt Depot",
+    "CTRE",
+    "Del City",
+    "Digikey",
+    "Ferrules Direct",
+    "Home Depot",
+    "Local Vendor",
+    "McMaster",
+    "Powerx",
+    "REV Robotics",
+    "Robo Promo",
+    "SDS",
+    "Thrifty Bot",
+    "VEX Robotics",
+    "Vbelt Guys",
+    "WCP",
+]
 
-
+purposes = [
+    "Robot Parts",
+    "Tools",
+]
 
 # REQUESTS FUNCTIONS
 def create_request(data):
@@ -57,7 +82,7 @@ def read_orders():
 
 def read_filtered_orders(field, value, other=False):
     if other:
-        values = read_vendors() if field == 'Vendor' else read_purposes()
+        values = vendors if field == 'Vendor' else purposes
         placeholders = ', '.join('%s' for _ in values)
         query = "SELECT * FROM Orders WHERE `{}` NOT IN ({})".format(field, placeholders)
         dictCursor.execute(query, values)
@@ -76,15 +101,3 @@ def update_order(id, data):
     values = (data['Description'], data['Notes'], data['Order_Date'], data['Payee'], data['Invoice_Num'], data['Carted'], data['Ordered'], data['Received'], id)
     cursor.execute(query, values)
     cnx.commit()
-
-# OTHER FUNCTIONS
-def read_vendors():
-    cursor.execute("SELECT Name FROM Vendors")
-    results = cursor.fetchall()
-    results = [row[0] for row in results]
-    return results
-def read_purposes():
-    cursor.execute("SELECT Name FROM Purposes")
-    results = cursor.fetchall()
-    results = [row[0] for row in results]
-    return results

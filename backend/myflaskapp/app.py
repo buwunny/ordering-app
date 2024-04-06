@@ -114,7 +114,16 @@ def get_filter_orders():
         value = 1
     
     print(field, value)
-    return jsonify(querier.read_filtered_orders(field, value))
+    return jsonify(querier.read_filtered_orders(field, value, other=(value=='Other')))
+
+# OTHER
+@app.route('/api/vendors', methods=['GET'])
+def get_vendors():
+    return jsonify(querier.vendors)
+
+@app.route('/api/purposes', methods=['GET'])
+def get_purposes():
+    return jsonify(querier.purposes)
 
 if __name__ == '__main__':
     app.run(debug=True)
