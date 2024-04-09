@@ -87,23 +87,21 @@ def deny_request(id):
         return jsonify({'status': 'error', 'message': 'Unauthorized'}), 401
 
 # ORDERS
-@app.route('/api/orders', methods=['GET'])
+@app.route('/api/orders', methods=['GET', 'PUT'])
 @jwt_required()
-def get_orders():
-    return jsonify(querier.read_orders())
+def handle_orders():
+    if request.method == 'GET':
+        return jsonify(querier.read_orders())
+    elif request.method == 'PUT':
+        claims = get_jwt()
+        if claims['role'] == 'admin':
+            data = request.json
+            for order in data:
+                querier.update_order(order['ID'], order)
+            return jsonify({'status': 'success'}), 200
+        else:
+            return jsonify({'status': 'error', 'message': 'Unauthorized'}), 401
 
-@app.route('/api/orders/<int:id>', methods=['PUT'])
-@jwt_required()
-def update_order(id):
-    claims = get_jwt()
-    if claims['role'] == 'admin':
-        data = request.json
-        # print(data)
-        querier.update_order(id, data)
-        return jsonify({'status': 'success'}), 200
-    else:
-        return jsonify({'status': 'error', 'message': 'Unauthorized'}), 401
-    
 @app.route('/api/orders/filter', methods=['GET'])
 @jwt_required()
 def get_filter_orders():

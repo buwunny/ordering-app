@@ -106,13 +106,14 @@ const Orders = () => {
     
     async function saveChanges() {
         try {
-            for (let i = 0; i < orders.length; i++) {
-                const response = await axios.put(`/api/orders/${orders[i].ID}`, orders[i], { headers });
-                console.log(response.data); // Print response to console
-            }
+            const response = await axios.put('/api/orders', orders, { headers });
+            console.log(response.data);
+            setOriginalOrders([...orders]);
+            setChanged(false);
             setMessage('Changes saved successfully');
         } catch (error) {
             console.log(error);
+            setChanged(false);
             setMessage('An error occurred while saving changes');
         }
     }
@@ -142,9 +143,9 @@ const Orders = () => {
                     <button className="btn btn-primary">Upload</button>
                 </Link>
             </div>
-            <div>
+            <div className='flex'>
                 <p>Filter:</p>
-                <select className="form-select" onChange={(e) => setFilter(e.target.value)}>
+                <select className="form-select filter" onChange={(e) => setFilter(e.target.value)}>
                     <option value="">None</option>
                     <option value="Status">Status</option>
                     <option value="Priority">Priority</option>
@@ -156,7 +157,7 @@ const Orders = () => {
                 </select>
                 
                 {filter === 'Status' && (
-                    <select className="form-select" onChange={(e) => handleFilter('Status', e.target.value)}>
+                    <select className="form-select filter" onChange={(e) => handleFilter('Status', e.target.value)}>
                         <option value="">All</option>
                         <option value="Carted">Carted</option>
                         <option value="Ordered">Ordered</option>
@@ -164,7 +165,7 @@ const Orders = () => {
                     </select>
                 )}
                 {filter === 'Priority' && (
-                    <select className="form-select" onChange={(e) => handleFilter('Priority', e.target.value)}>
+                    <select className="form-select filter" onChange={(e) => handleFilter('Priority', e.target.value)}>
                         <option value="">All</option>
                         <option value="Low">Low</option>
                         <option value="Medium">Medium</option>
@@ -172,7 +173,7 @@ const Orders = () => {
                     </select>
                 )}
                 {filter === 'Purpose' && (
-                    <select className="form-select" onChange={(e) => handleFilter('Purpose', e.target.value)}>
+                    <select className="form-select filter" onChange={(e) => handleFilter('Purpose', e.target.value)}>
                         <option value="">All</option>
                         {purposes.map((purpose, index) => (
                             <option key={index} value={purpose}>{purpose}</option>
@@ -181,7 +182,7 @@ const Orders = () => {
                     </select>
                 )}
                 {filter === 'Vendor' && (
-                    <select className="form-select" onChange={(e) => handleFilter('Vendor', e.target.value)}>
+                    <select className="form-select filter" onChange={(e) => handleFilter('Vendor', e.target.value)}>
                         <option value="">All</option>
                         {vendors.map((vendor, index) => (
                             <option key={index} value={vendor}>{vendor}</option>
@@ -190,7 +191,7 @@ const Orders = () => {
                     </select>
                 )}
                 {role === 'admin' && filter === 'Payee' && (
-                    <select className="form-select" onChange={(e) => handleFilter('Payee', e.target.value)}>
+                    <select className="form-select filter" onChange={(e) => handleFilter('Payee', e.target.value)}>
                         <option value="">All</option>
                         <option value={null}>None</option>
                         <option value="McQ">McQuaid</option>
@@ -200,7 +201,7 @@ const Orders = () => {
                     </select>
                 )}
             </div>
-            <div className="table-container">
+            <div className="table-container order-table">
                 <table>
                     <thead>
                         <tr>
@@ -312,7 +313,7 @@ const Orders = () => {
                     </tbody>
                 </table>
             </div>
-            <div>
+            <div className='flex'>
                 {changed && (
                     <>
                         <button className="btn btn-primary" onClick={saveChanges}>

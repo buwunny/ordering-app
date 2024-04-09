@@ -61,22 +61,27 @@ const Requests = () => {
 
     return (
         <div className="container-fluid">
-            <Link to="/">
-                <button className="btn btn-primary">Home</button>
-            </Link>
-            <Link to="/form">
-                <button className="btn btn-primary">Form</button>
-            </Link>
-            <Link to="/requests">
-                <button className="btn btn-primary">Requests</button>
-            </Link>
-            <Link to="/orders">
-                <button className="btn btn-primary">Orders</button>
-            </Link>
-            <Link to="/upload">
-                <button className="btn btn-primary">Upload</button>
-            </Link>
-            <div className='table-container'>
+            <div>
+                <Link to="/">
+                    <button className="btn btn-primary">Home</button>
+                </Link>
+                <Link to="/form">
+                    <button className="btn btn-primary">Form</button>
+                </Link>
+                <Link to="/requests">
+                    <button className="btn btn-primary">Requests</button>
+                </Link>
+                <Link to="/orders">
+                    <button className="btn btn-primary">Orders</button>
+                </Link>
+                <Link to="/upload">
+                    <button className="btn btn-primary">Upload</button>
+                </Link>
+            </div>
+            <div>
+                {message && <p>{message}</p>}
+            </div>
+            <div className='table-container request-table'>
                 <table>
                     <thead>
                         <tr>
@@ -125,9 +130,7 @@ const Requests = () => {
                     </tbody>
                 </table>
             </div>
-            <div>
-                {message && <p>{message}</p>}
-            </div>
+            
         </div>
     );
 };
