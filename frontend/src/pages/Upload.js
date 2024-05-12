@@ -65,6 +65,10 @@ function Upload() {
                 <button className="btn btn-primary">Upload</button>
             </Link>
             <div className='container-fluid container-center'>
+
+                <h1>Upload CSV File</h1>
+                <a href="https://docs.google.com/spreadsheets/d/1bc-ZjdRssMCrsjsN_NM3h2pa43gHvyCkElZ1hrHr7UM/copy" target="_blank" rel="noopener noreferrer">Template</a>
+                <p>File&gt;Download&gt;.csv</p>
                 <form onSubmit={handleSubmit}>
                     <div className="form-group">
                         <label htmlFor="fileInput">Select CSV File:</label>

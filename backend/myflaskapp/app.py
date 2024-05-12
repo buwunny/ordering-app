@@ -1,9 +1,10 @@
 from flask import Flask, render_template, request, jsonify
 from flask_jwt_extended import JWTManager, jwt_required, create_access_token, get_jwt
 from werkzeug.security import generate_password_hash, check_password_hash
-import querier, csv_handler, json
+import querier, csv_handler, json, os
 
-credentials = json.load(open('/home/bunny/repos/ordering-app/backend/myflaskapp/credentials.json'))
+credentials_path = os.path.join(os.path.dirname(__file__), 'credentials.json')
+credentials = json.load(open(credentials_path))
 
 app = Flask(__name__)
 app.config['JWT_SECRET_KEY'] = credentials['JWT_SECRET_KEY']

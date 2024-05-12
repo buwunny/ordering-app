@@ -1,7 +1,9 @@
 import mysql.connector
 import json
+import os
 
-credentials = json.load(open('/home/bunny/repos/ordering-app/backend/myflaskapp/credentials.json'))
+credentials_path = os.path.join(os.path.dirname(__file__), 'credentials.json')
+credentials = json.load(open(credentials_path))
 cnx = mysql.connector.connect(user=credentials['user'], password=credentials['password'], host=credentials['host'], database=credentials['database'])
 cursor = cnx.cursor()
 dictCursor = cnx.cursor(dictionary=True)   
