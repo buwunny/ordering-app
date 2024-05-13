@@ -7,6 +7,7 @@ import './styles.css';
 
 const Requests = () => {
     const [requests, setRequests] = useState([]);
+    const [showFooter, setShowFooter] = useState(false);
     const [message, setMessage] = useState('');
 
     const token = localStorage.getItem('token');
@@ -22,20 +23,32 @@ const Requests = () => {
     });
 
     useEffect(() => {
-        const fetchRequests = async () => {
-            try {
-                const response = await axios.get('/api/requests', { headers });
-                setRequests(response.data); // Make requests a 2D array
-                console.log(response.data); // Print response to console
-            } catch (error) {
-                setMessage('An error occurred');
-                console.log(error.response.data);
-            }
-        };
         fetchRequests();
     }, []);
 
+    useEffect(() => {
+        if (message) {
+            setShowFooter(true);
+            setTimeout(() => {
+                setShowFooter(false);
+                setMessage('');
+            }, 5000);
+        }
+    }, [message]);
+    
+    const fetchRequests = async () => {
+        try {
+            const response = await axios.get('/api/requests', { headers });
+            setRequests(response.data); // Make requests a 2D array
+            console.log(response.data); // Print response to console
+        } catch (error) {
+            setMessage('An error occurred');
+            console.log(error.response.data);
+        }
+    };
+
     const acceptRequest = async (requestId) => {
+        setShowFooter(true);
         try {
             const response = await axios.post(`/api/requests/accept/${requestId}`, {}, { headers });
             setMessage('Accepted');
@@ -48,6 +61,7 @@ const Requests = () => {
     };
 
     const denyRequest = async (requestId) => {
+        setShowFooter(true);
         try {
             const response = await axios.post(`/api/requests/deny/${requestId}`, {}, { headers });
             setMessage('Denied');
@@ -78,10 +92,7 @@ const Requests = () => {
                     <button className="btn btn-primary">Upload</button>
                 </Link>
             </div>
-            <div>
-                {message && <p>{message}</p>}
-            </div>
-            <div className='table-container request-table'>
+            <div className='table-container'>
                 <table>
                     <thead>
                         <tr>
@@ -130,7 +141,9 @@ const Requests = () => {
                     </tbody>
                 </table>
             </div>
-            
+            {showFooter && <div className='footer'>
+                {message && <p>{message}</p>}
+            </div>}
         </div>
     );
 };

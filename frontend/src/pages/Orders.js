@@ -10,6 +10,7 @@ const Orders = () => {
     const [vendors, setVendors] = useState([]);
     const [purposes, setPurposes] = useState([]);
     const [originalOrders, setOriginalOrders] = useState([]);
+    const [showFooter, setShowFooter] = useState(false);
     const [message, setMessage] = useState('');
     const [changed, setChanged] = useState(false);
     const [filter, setFilter] = useState('');
@@ -65,10 +66,22 @@ const Orders = () => {
         fetchOrders();
         fetchVendors();
         fetchPurposes();
+    }, []);
 
+    useEffect(() => {
+        if (message) {
+            setShowFooter(true);
+            setTimeout(() => {
+                setShowFooter(false);
+                setMessage('');
+            }, 5000);
+        }
+    }, [message]);
+
+    useEffect(() => {
         if (filterChanged && filter === '') {
             fetchOrders();
-        }
+        }1
     }, [filter]);
 
     async function handleChange(index, event, field) {
@@ -76,6 +89,7 @@ const Orders = () => {
         newOrders[index][field] = event.target.value;
         setOrders(newOrders);
         setChanged(true);
+        setShowFooter(true);
     }
 
     async function handleOrderedChange(index, event, field) {
@@ -201,7 +215,7 @@ const Orders = () => {
                     </select>
                 )}
             </div>
-            <div className="table-container order-table">
+            <div className="table-container">
                 <table>
                     <thead>
                         <tr>
@@ -313,19 +327,19 @@ const Orders = () => {
                     </tbody>
                 </table>
             </div>
-            <div className='flex'>
+            {showFooter && <div className='footer'>
                 {changed && (
                     <>
                         <button className="btn btn-primary" onClick={saveChanges}>
-                            Save Changes
+                            Save
                         </button>
                         <button className="btn btn-primary" onClick={cancelChanges}>
-                            Cancel Changes
+                            Cancel
                         </button>
                     </>
                 )}
                 {message && <p>{message}</p>}
-            </div>
+            </div>}
         </div>
     );
 };
