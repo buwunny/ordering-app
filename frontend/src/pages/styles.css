@@ -35,8 +35,9 @@ label {
 .container-center {
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
+    height: 93%;
+    overflow: auto;
 }
 
 .container-fluid .btn {
@@ -124,6 +125,7 @@ footer {
     width: 15%;
     justify-content: center;
     border: 1px solid #FAB532;
+    background-color: black;
 }
 .form-check-input:checked {
     background-color: #FAB532;

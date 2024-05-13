@@ -91,6 +91,7 @@ const Orders = () => {
         setOrders(newOrders);
         setChanged(true);
         setShowFooter(true);
+        setMessage('');
     }
 
     async function handleOrderedChange(index, event, field) {
