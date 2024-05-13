@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import withAuth from '../hocs/withAuth';
+import withAuth from '../hocs/WithAuth';
 import axios from 'axios';
 import { jwtDecode } from 'jwt-decode';
 import './styles.css';
+import HeaderButtons from '../components/HeaderButtons';
 
 const Orders = () => {
     const [orders, setOrders] = useState([]);
@@ -140,81 +141,67 @@ const Orders = () => {
 
     return (
         <div className="container-fluid">
-            <div>
-                <Link to="/">
-                    <button className="btn btn-primary">Home</button>
-                </Link>
-                <Link to="/form">
-                    <button className="btn btn-primary">Form</button>
-                </Link>
-                <Link to="/requests">
-                    <button className="btn btn-primary">Requests</button>
-                </Link>
-                <Link to="/orders">
-                    <button className="btn btn-primary">Orders</button>
-                </Link>
-                <Link to="/upload">
-                    <button className="btn btn-primary">Upload</button>
-                </Link>
-            </div>
-            <div className='flex'>
-                <p>Filter:</p>
-                <select className="form-select filter" onChange={(e) => setFilter(e.target.value)}>
-                    <option value="">None</option>
-                    <option value="Status">Status</option>
-                    <option value="Priority">Priority</option>
-                    <option value="Purpose">Purpose</option>
-                    <option value="Vendor">Vendor</option>
-                    {role === 'admin' && (
-                        <option value="Payee">Payee</option>
+            <header>
+                <HeaderButtons></HeaderButtons>
+                <div className='filter-container'>
+                    <p>Filter:</p>
+                    <select className="form-select filter" onChange={(e) => setFilter(e.target.value)}>
+                        <option value="">None</option>
+                        <option value="Status">Status</option>
+                        <option value="Priority">Priority</option>
+                        <option value="Purpose">Purpose</option>
+                        <option value="Vendor">Vendor</option>
+                        {role === 'admin' && (
+                            <option value="Payee">Payee</option>
+                        )}
+                    </select>
+                    
+                    {filter === 'Status' && (
+                        <select className="form-select filter" onChange={(e) => handleFilter('Status', e.target.value)}>
+                            <option value="">All</option>
+                            <option value="Carted">Carted</option>
+                            <option value="Ordered">Ordered</option>
+                            <option value="Received">Received</option>
+                        </select>
                     )}
-                </select>
-                
-                {filter === 'Status' && (
-                    <select className="form-select filter" onChange={(e) => handleFilter('Status', e.target.value)}>
-                        <option value="">All</option>
-                        <option value="Carted">Carted</option>
-                        <option value="Ordered">Ordered</option>
-                        <option value="Received">Received</option>
-                    </select>
-                )}
-                {filter === 'Priority' && (
-                    <select className="form-select filter" onChange={(e) => handleFilter('Priority', e.target.value)}>
-                        <option value="">All</option>
-                        <option value="Low">Low</option>
-                        <option value="Medium">Medium</option>
-                        <option value="High">High</option>
-                    </select>
-                )}
-                {filter === 'Purpose' && (
-                    <select className="form-select filter" onChange={(e) => handleFilter('Purpose', e.target.value)}>
-                        <option value="">All</option>
-                        {purposes.map((purpose, index) => (
-                            <option key={index} value={purpose}>{purpose}</option>
-                        ))}
-                        <option value="Other">Other</option>
-                    </select>
-                )}
-                {filter === 'Vendor' && (
-                    <select className="form-select filter" onChange={(e) => handleFilter('Vendor', e.target.value)}>
-                        <option value="">All</option>
-                        {vendors.map((vendor, index) => (
-                            <option key={index} value={vendor}>{vendor}</option>
-                        ))}
-                        <option value="Other">Other</option>
-                    </select>
-                )}
-                {role === 'admin' && filter === 'Payee' && (
-                    <select className="form-select filter" onChange={(e) => handleFilter('Payee', e.target.value)}>
-                        <option value="">All</option>
-                        <option value={null}>None</option>
-                        <option value="McQ">McQuaid</option>
-                        <option value="RCR">RCR</option>
-                        <option value="Donation">Donation</option>
-                        <option value="Voucher">Voucher</option>
-                    </select>
-                )}
-            </div>
+                    {filter === 'Priority' && (
+                        <select className="form-select filter" onChange={(e) => handleFilter('Priority', e.target.value)}>
+                            <option value="">All</option>
+                            <option value="Low">Low</option>
+                            <option value="Medium">Medium</option>
+                            <option value="High">High</option>
+                        </select>
+                    )}
+                    {filter === 'Purpose' && (
+                        <select className="form-select filter" onChange={(e) => handleFilter('Purpose', e.target.value)}>
+                            <option value="">All</option>
+                            {purposes.map((purpose, index) => (
+                                <option key={index} value={purpose}>{purpose}</option>
+                            ))}
+                            <option value="Other">Other</option>
+                        </select>
+                    )}
+                    {filter === 'Vendor' && (
+                        <select className="form-select filter" onChange={(e) => handleFilter('Vendor', e.target.value)}>
+                            <option value="">All</option>
+                            {vendors.map((vendor, index) => (
+                                <option key={index} value={vendor}>{vendor}</option>
+                            ))}
+                            <option value="Other">Other</option>
+                        </select>
+                    )}
+                    {role === 'admin' && filter === 'Payee' && (
+                        <select className="form-select filter" onChange={(e) => handleFilter('Payee', e.target.value)}>
+                            <option value="">All</option>
+                            <option value={null}>None</option>
+                            <option value="McQ">McQuaid</option>
+                            <option value="RCR">RCR</option>
+                            <option value="Donation">Donation</option>
+                            <option value="Voucher">Voucher</option>
+                        </select>
+                    )}
+                </div>
+            </header>
             <div className="table-container">
                 <table>
                     <thead>
@@ -327,7 +314,7 @@ const Orders = () => {
                     </tbody>
                 </table>
             </div>
-            {showFooter && <div className='footer'>
+            {showFooter && <footer>
                 {changed && (
                     <>
                         <button className="btn btn-primary" onClick={saveChanges}>
@@ -339,7 +326,7 @@ const Orders = () => {
                     </>
                 )}
                 {message && <p>{message}</p>}
-            </div>}
+            </footer>}
         </div>
     );
 };

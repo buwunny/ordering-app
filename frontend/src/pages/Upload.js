@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import withAuth from '../hocs/withAuth';
+import withAuth from '../hocs/WithAuth';
 import axios from 'axios';
 import './styles.css';
+import HeaderButtons from '../components/HeaderButtons';
 
 function Upload() {
     const [selectedFile, setSelectedFile] = useState(null);
@@ -49,21 +50,9 @@ function Upload() {
 
     return (
         <div className="container-fluid">
-            <Link to="/">
-                <button className="btn btn-primary">Home</button>
-            </Link>
-            <Link to="/form">
-                <button className="btn btn-primary">Form</button>
-            </Link>
-            <Link to="/requests">
-                <button className="btn btn-primary">Requests</button>
-            </Link>
-            <Link to="/orders">
-                <button className="btn btn-primary">Orders</button>
-            </Link>
-            <Link to="/upload">
-                <button className="btn btn-primary">Upload</button>
-            </Link>
+            <header>
+                <HeaderButtons></HeaderButtons>
+            </header>
             <div className='container-fluid container-center'>
 
                 <h1>Upload CSV File</h1>

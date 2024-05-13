@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import withAuth from '../hocs/withAuth';
+import withAuth from '../hocs/WithAuth';
 
 function Home() {
     return (

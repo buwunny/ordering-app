@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import withAuth from '../hocs/withAuth';
+import withAuth from '../hocs/WithAuth';
 import { jwtDecode } from 'jwt-decode';
 import './styles.css';
+import HeaderButtons from '../components/HeaderButtons';
 
 const Requests = () => {
     const [requests, setRequests] = useState([]);
@@ -75,23 +76,9 @@ const Requests = () => {
 
     return (
         <div className="container-fluid">
-            <div>
-                <Link to="/">
-                    <button className="btn btn-primary">Home</button>
-                </Link>
-                <Link to="/form">
-                    <button className="btn btn-primary">Form</button>
-                </Link>
-                <Link to="/requests">
-                    <button className="btn btn-primary">Requests</button>
-                </Link>
-                <Link to="/orders">
-                    <button className="btn btn-primary">Orders</button>
-                </Link>
-                <Link to="/upload">
-                    <button className="btn btn-primary">Upload</button>
-                </Link>
-            </div>
+            <header>
+                <HeaderButtons></HeaderButtons>
+            </header>
             <div className='table-container'>
                 <table>
                     <thead>
@@ -141,9 +128,9 @@ const Requests = () => {
                     </tbody>
                 </table>
             </div>
-            {showFooter && <div className='footer'>
+            {showFooter && <footer>
                 {message && <p>{message}</p>}
-            </div>}
+            </footer>}
         </div>
     );
 };
