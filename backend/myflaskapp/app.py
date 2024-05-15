@@ -3,11 +3,11 @@ from flask_jwt_extended import JWTManager, jwt_required, create_access_token, ge
 from werkzeug.security import generate_password_hash, check_password_hash
 import querier, csv_handler, json, os
 
-credentials_path = os.path.join(os.path.dirname(__file__), 'credentials.json')
-credentials = json.load(open(credentials_path))
+# credentials_path = os.path.join(os.path.dirname(__file__), 'credentials.json')
+# credentials = json.load(open(credentials_path))
 
 app = Flask(__name__)
-app.config['JWT_SECRET_KEY'] = credentials['JWT_SECRET_KEY']
+app.config['JWT_SECRET_KEY'] = os.environ['JWT_SECRET_KEY']
 jwt = JWTManager(app)
 
 users = { 'admin': generate_password_hash('admin'), 'user': generate_password_hash('user')}
@@ -125,4 +125,4 @@ def get_purposes():
     return jsonify(querier.purposes)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=False)

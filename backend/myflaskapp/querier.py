@@ -4,7 +4,7 @@ import os
 
 credentials_path = os.path.join(os.path.dirname(__file__), 'credentials.json')
 credentials = json.load(open(credentials_path))
-cnx = mysql.connector.connect(user=credentials['user'], password=credentials['password'], host=credentials['host'], database=credentials['database'])
+cnx = mysql.connector.connect(user=os.environ['user'], password=os.environ['password'], host=os.environ['host'], database=os.environ['database'])
 cursor = cnx.cursor()
 dictCursor = cnx.cursor(dictionary=True)   
 cursor.execute("SELECT * FROM Requests")
